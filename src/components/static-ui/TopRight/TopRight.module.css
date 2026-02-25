@@ -1,0 +1,66 @@
+/* ------------------------------------------------------------------ */
+/* TopRight — settings / account icon buttons                          */
+/* ------------------------------------------------------------------ */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  gap: var(--spacing-2, 8px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon button                                                         */
+/* ------------------------------------------------------------------ */
+
+.iconButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  height: 44px;
+  flex-shrink: 0;
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-subtle, 5.2px));
+  -webkit-backdrop-filter: blur(var(--blur-subtle, 5.2px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+.iconButton:hover {
+  background: var(--color-glass-raised);
+}
+
+.iconButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon                                                                */
+/* ------------------------------------------------------------------ */
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  color: var(--semantic-icon-default);
+  transition: color var(--transition-normal);
+}
+
+.iconButton:hover .icon {
+  color: var(--semantic-text-primary);
+}
+
+.iconButton:focus-visible .icon,
+.iconButton:active .icon {
+  color: var(--semantic-icon-active);
+}

@@ -1,0 +1,67 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.wrapper:focus-visible .box {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+.wrapper.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ */
+/* Custom checkbox box                                                 */
+/* ------------------------------------------------------------------ */
+.box {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: var(--radius-sm);
+  border: 2px solid var(--semantic-border-default);
+  flex-shrink: 0;
+  transition:
+    border-color var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+.box.checked {
+  background: var(--color-brand-blue-1);
+  border-color: var(--color-brand-blue-1);
+}
+
+/* ------------------------------------------------------------------ */
+/* CSS checkmark                                                       */
+/* ------------------------------------------------------------------ */
+.checkmark {
+  display: block;
+  width: 10px;
+  height: 6px;
+  border-left: 2px solid #fff;
+  border-bottom: 2px solid #fff;
+  transform: rotate(-45deg) translateY(-1px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Label                                                               */
+/* ------------------------------------------------------------------ */
+.label {
+  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-size: var(--typography-scale-p2-font-size);
+  font-weight: var(--typography-font-weight-light);
+  letter-spacing: var(--typography-scale-p2-letter-spacing);
+  line-height: var(--typography-scale-p2-line-height);
+  color: var(--semantic-text-primary);
+  user-select: none;
+}

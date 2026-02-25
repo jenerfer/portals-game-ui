@@ -1,0 +1,45 @@
+/* =============================================================
+ * Portals Game UI — Global Styles
+ * ============================================================= */
+
+@import './tokens.css';
+@import './fonts.css';
+@import './reset.css';
+
+body {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-font-weight-light);
+  color: var(--semantic-text-primary);
+  background-color: var(--color-ice-7);
+  letter-spacing: 1px;
+}
+
+/* Overlay root for portals/modals */
+#portals-overlay-root {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1000;
+}
+
+#portals-overlay-root > * {
+  pointer-events: auto;
+}
+
+/* Scrollbar styling for glassmorphic panels */
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--semantic-icon-subtle);
+  border-radius: var(--radius-pill);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--semantic-text-muted);
+}

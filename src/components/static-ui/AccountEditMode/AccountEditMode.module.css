@@ -1,0 +1,61 @@
+/* ------------------------------------------------------------------ */
+/* AccountEditMode — Build / Account segmented toggle                  */
+/* ------------------------------------------------------------------ */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  padding: 4px;
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-light, 6.5px));
+  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Segment button                                                      */
+/* ------------------------------------------------------------------ */
+
+.segment {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p3bold-font-size, 14px);
+  line-height: var(--typography-scale-p3bold-line-height, 14px);
+  letter-spacing: var(--typography-scale-p3bold-letter-spacing, 1px);
+  font-weight: var(--typography-scale-p3bold-font-weight, 600);
+  color: var(--semantic-text-muted);
+
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+.segment:hover:not(.active) {
+  color: var(--semantic-text-secondary);
+}
+
+.segment:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Active segment                                                      */
+/* ------------------------------------------------------------------ */
+
+.active {
+  background: var(--color-glass-raised-active);
+  color: var(--semantic-text-primary);
+}

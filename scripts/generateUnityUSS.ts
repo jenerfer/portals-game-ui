@@ -1,0 +1,170 @@
+import { readFileSync, writeFileSync, mkdirSync } from 'fs';
+import { resolve, dirname } from 'path';
+
+const TOKENS_PATH = resolve(import.meta.dirname, '..', 'tokens', 'tokens.json');
+const OUTPUT_PATH = resolve(import.meta.dirname, '..', 'unity', 'portals-tokens.uss');
+
+interface TokenValue {
+  value: string;
+}
+
+type TokenGroup = {
+  [key: string]: TokenValue | TokenGroup;
+};
+
+function isTokenValue(obj: unknown): obj is TokenValue {
+  return typeof obj === 'object' && obj !== null && 'value' in obj && typeof (obj as TokenValue).value === 'string';
+}
+
+/**
+ * Convert camelCase to kebab-case.
+ */
+function camelToKebab(str: string): string {
+  return str
+    .replace(/([a-z])([A-Z])/g, '$1-$2')
+    .replace(/([A-Z]+)([A-Z][a-z])/g, '$1-$2')
+    .toLowerCase();
+}
+
+/**
+ * Flatten a nested token object into USS variable declarations.
+ * USS uses `--property: value;` (same as CSS custom properties)
+ * but Unity USS only supports literal values (no rgba(), var(), etc.)
+ *
+ * We convert:
+ *   rgba(r, g, b, a) → rgba(r, g, b, a)   (Unity USS supports rgba)
+ *   font families     → string literal
+ *   px values         → px values           (Unity USS supports px)
+ */
+function flattenTokens(obj: TokenGroup, prefix: string = ''): string[] {
+  const lines: string[] = [];
+
+  for (const [key, value] of Object.entries(obj)) {
+    if (key === '$schema') continue;
+
+    const propName = prefix ? `${prefix}-${camelToKebab(key)}` : camelToKebab(key);
+
+    if (isTokenValue(value)) {
+      lines.push(`  --${propName}: ${value.value};`);
+    } else if (typeof value === 'object' && value !== null) {
+      lines.push(...flattenTokens(value as TokenGroup, propName));
+    }
+  }
+
+  return lines;
+}
+
+/**
+ * Generate a USS utility class for each typography scale token.
+ * These produce ready-to-use classes in Unity UI Toolkit.
+ */
+function generateTypographyClasses(tokens: TokenGroup): string[] {
+  const lines: string[] = [];
+  const typography = tokens['typography'] as TokenGroup | undefined;
+  if (!typography) return lines;
+
+  const scale = typography['scale'] as TokenGroup | undefined;
+  if (!scale) return lines;
+
+  const fontFamilies = typography['fontFamily'] as TokenGroup | undefined;
+  const headingFont = fontFamilies?.['heading'] as TokenValue | undefined;
+  const bodyFont = fontFamilies?.['body'] as TokenValue | undefined;
+
+  lines.push('');
+  lines.push('/* ── Typography Utility Classes ─────────────────────────── */');
+
+  for (const [name, props] of Object.entries(scale)) {
+    if (typeof props !== 'object' || props === null) continue;
+
+    const group = props as TokenGroup;
+    const fontSize = (group['fontSize'] as TokenValue)?.value;
+    const lineHeight = (group['lineHeight'] as TokenValue)?.value;
+    const letterSpacing = (group['letterSpacing'] as TokenValue)?.value;
+    const fontWeight = (group['fontWeight'] as TokenValue)?.value;
+
+    // Determine font family: headings (h*) use Agrandir, body (p*) uses PP Supply Sans
+    const isHeading = name.startsWith('h');
+    const fontFamily = isHeading ? headingFont?.value : bodyFont?.value;
+
+    const className = camelToKebab(name);
+    lines.push('');
+    lines.push(`.text-${className} {`);
+    if (fontFamily) lines.push(`  -unity-font-definition: url("${fontFamily}");`);
+    if (fontSize) lines.push(`  font-size: ${fontSize};`);
+    // USS doesn't have line-height directly, but we can approximate with padding
+    // or use -unity-paragraph-spacing for para variants
+    if (letterSpacing) lines.push(`  letter-spacing: ${letterSpacing};`);
+    if (fontWeight) lines.push(`  -unity-font-style: ${fontWeight === '600' || fontWeight === '800' || fontWeight === '900' ? 'bold' : 'normal'};`);
+    lines.push('}');
+  }
+
+  return lines;
+}
+
+/**
+ * Generate USS utility classes for semantic colors.
+ */
+function generateColorClasses(tokens: TokenGroup): string[] {
+  const lines: string[] = [];
+  const semantic = tokens['semantic'] as TokenGroup | undefined;
+  if (!semantic) return lines;
+
+  const text = semantic['text'] as TokenGroup | undefined;
+  if (text) {
+    lines.push('');
+    lines.push('/* ── Text Color Utility Classes ────────────────────────── */');
+    for (const [name, val] of Object.entries(text)) {
+      if (!isTokenValue(val)) continue;
+      lines.push('');
+      lines.push(`.text-color-${camelToKebab(name)} {`);
+      lines.push(`  color: ${val.value};`);
+      lines.push('}');
+    }
+  }
+
+  return lines;
+}
+
+function generate(): void {
+  const raw = readFileSync(TOKENS_PATH, 'utf-8');
+  const tokens = JSON.parse(raw) as TokenGroup;
+
+  const varLines = flattenTokens(tokens);
+  const typographyClasses = generateTypographyClasses(tokens);
+  const colorClasses = generateColorClasses(tokens);
+
+  const uss = `/* =============================================================
+ * Portals Game UI — Unity USS Design Tokens (AUTO-GENERATED)
+ * Source: tokens/tokens.json
+ * DO NOT EDIT THIS FILE — run "npm run tokens:unity" to regenerate
+ * ============================================================= */
+
+/* ── CSS Variables (Custom Properties) ────────────────────── */
+:root {
+${varLines.join('\n')}
+}
+${typographyClasses.join('\n')}
+${colorClasses.join('\n')}
+
+/* ── Layout Utility Classes ───────────────────────────────── */
+
+.panel {
+  width: var(--layout-panel-width);
+  padding: var(--layout-panel-padding);
+  border-radius: var(--radius-2xl);
+  background-color: var(--color-glass-base);
+}
+
+.safe-zone {
+  padding: var(--layout-safe-zone);
+}
+`;
+
+  mkdirSync(dirname(OUTPUT_PATH), { recursive: true });
+  writeFileSync(OUTPUT_PATH, uss, 'utf-8');
+
+  const totalLines = varLines.length + typographyClasses.length + colorClasses.length;
+  console.log(`✓ Generated Unity USS with ${totalLines} declarations → unity/portals-tokens.uss`);
+}
+
+generate();

@@ -1,0 +1,35 @@
+/* =============================================================
+ * Portals Game UI — Font Face Declarations
+ * ============================================================= */
+
+@font-face {
+  font-family: 'Agrandir Wide Heavy';
+  src: url('/fonts/Agrandir-WideHeavy.otf') format('opentype');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Sans';
+  src: url('/fonts/PPSupplySans-Light.ttf') format('truetype');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Sans';
+  src: url('/fonts/PPSupplySans-Semibold.ttf') format('truetype');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'PP Supply Sans';
+  src: url('/fonts/PPSupplySans-Black.ttf') format('truetype');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}

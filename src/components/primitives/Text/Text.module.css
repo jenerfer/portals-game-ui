@@ -1,0 +1,152 @@
+/* ------------------------------------------------------------------ */
+/* Text – primitive typography component                              */
+/* ------------------------------------------------------------------ */
+
+.base {
+  margin: 0;
+  padding: 0;
+}
+
+/* ===== Variant classes ============================================ */
+
+/* --- Headers ------------------------------------------------------ */
+
+.h1Xl {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-scale-h1xl-font-weight);
+  font-size: var(--typography-scale-h1xl-font-size);
+  line-height: var(--typography-scale-h1xl-line-height);
+  letter-spacing: var(--typography-scale-h1xl-letter-spacing);
+}
+
+.h1 {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-scale-h1-font-weight);
+  font-size: var(--typography-scale-h1-font-size);
+  line-height: var(--typography-scale-h1-line-height);
+  letter-spacing: var(--typography-scale-h1-letter-spacing);
+}
+
+.h2 {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-scale-h2-font-weight);
+  font-size: var(--typography-scale-h2-font-size);
+  line-height: var(--typography-scale-h2-line-height);
+  letter-spacing: var(--typography-scale-h2-letter-spacing);
+}
+
+/* --- P1 (18px) ---------------------------------------------------- */
+
+.p1 {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p1-font-weight);
+  font-size: var(--typography-scale-p1-font-size);
+  line-height: var(--typography-scale-p1-line-height);
+  letter-spacing: var(--typography-scale-p1-letter-spacing);
+}
+
+.p1Bold {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p1bold-font-weight);
+  font-size: var(--typography-scale-p1bold-font-size);
+  line-height: var(--typography-scale-p1bold-line-height);
+  letter-spacing: var(--typography-scale-p1bold-letter-spacing);
+}
+
+.p1Para {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p1para-font-weight);
+  font-size: var(--typography-scale-p1para-font-size);
+  line-height: var(--typography-scale-p1para-line-height);
+  letter-spacing: var(--typography-scale-p1para-letter-spacing);
+}
+
+/* --- P2 (16px) ---------------------------------------------------- */
+
+.p2 {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p2-font-weight);
+  font-size: var(--typography-scale-p2-font-size);
+  line-height: var(--typography-scale-p2-line-height);
+  letter-spacing: var(--typography-scale-p2-letter-spacing);
+}
+
+.p2Bold {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p2bold-font-weight);
+  font-size: var(--typography-scale-p2bold-font-size);
+  line-height: var(--typography-scale-p2bold-line-height);
+  letter-spacing: var(--typography-scale-p2bold-letter-spacing);
+}
+
+.p2Para {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p2para-font-weight);
+  font-size: var(--typography-scale-p2para-font-size);
+  line-height: var(--typography-scale-p2para-line-height);
+  letter-spacing: var(--typography-scale-p2para-letter-spacing);
+}
+
+/* --- P3 (14px) ---------------------------------------------------- */
+
+.p3 {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p3-font-weight);
+  font-size: var(--typography-scale-p3-font-size);
+  line-height: var(--typography-scale-p3-line-height);
+  letter-spacing: var(--typography-scale-p3-letter-spacing);
+}
+
+.p3Bold {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p3bold-font-weight);
+  font-size: var(--typography-scale-p3bold-font-size);
+  line-height: var(--typography-scale-p3bold-line-height);
+  letter-spacing: var(--typography-scale-p3bold-letter-spacing);
+}
+
+.p3Para {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p3para-font-weight);
+  font-size: var(--typography-scale-p3para-font-size);
+  line-height: var(--typography-scale-p3para-line-height);
+  letter-spacing: var(--typography-scale-p3para-letter-spacing);
+}
+
+/* ===== Color classes ============================================== */
+
+.color-primary {
+  color: var(--semantic-text-primary);
+}
+
+.color-secondary {
+  color: var(--semantic-text-secondary);
+}
+
+.color-muted {
+  color: var(--semantic-text-muted);
+}
+
+.color-disabled {
+  color: var(--semantic-text-disabled);
+}
+
+.color-blue {
+  color: var(--semantic-text-blue);
+}
+
+.color-inverse {
+  color: var(--semantic-text-inverse);
+}
+
+.color-ice {
+  color: var(--color-named-portals-ice);
+}
+
+.color-lightIce {
+  color: var(--color-named-portals-light-ice);
+}
+
+.color-inherit {
+  color: inherit;
+}

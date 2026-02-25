@@ -1,0 +1,74 @@
+/* ------------------------------------------------------------------ */
+/* ClickThruPanel — navigation list row with optional icon & chevron  */
+/* ------------------------------------------------------------------ */
+
+.row {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 55px;
+  padding: 0;
+
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--semantic-border-default);
+
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--transition-normal);
+}
+
+.row:hover {
+  background: var(--color-glass-base-light);
+}
+
+.row:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+  border-radius: var(--radius-sm, 8px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Left side: icon + label                                             */
+/* ------------------------------------------------------------------ */
+
+.left {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-4, 13px);
+}
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--semantic-icon-default);
+  flex-shrink: 0;
+}
+
+.label {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p2-font-size, 16px);
+  line-height: var(--typography-scale-p2-line-height, 16px);
+  letter-spacing: var(--typography-scale-p2-letter-spacing, 1px);
+  font-weight: var(--typography-scale-p2-font-weight, 300);
+  color: var(--semantic-text-primary);
+}
+
+/* ------------------------------------------------------------------ */
+/* Chevron — CSS-drawn right-pointing arrow                            */
+/* ------------------------------------------------------------------ */
+
+.chevron {
+  display: block;
+  width: 8px;
+  height: 8px;
+  border-right: 2px solid var(--semantic-icon-subtle);
+  border-bottom: 2px solid var(--semantic-icon-subtle);
+  transform: rotate(-45deg);
+  flex-shrink: 0;
+}

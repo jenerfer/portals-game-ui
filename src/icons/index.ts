@@ -1,0 +1,17 @@
+export { MicIcon } from './MicIcon';
+export { ChatIcon } from './ChatIcon';
+export { BackIcon } from './BackIcon';
+export { CloseIcon } from './CloseIcon';
+export { GeneralIcon } from './GeneralIcon';
+export { InventoryIcon } from './InventoryIcon';
+export { BuildSettingsIcon } from './BuildSettingsIcon';
+export { VersionIcon } from './VersionIcon';
+export { AudioIcon } from './AudioIcon';
+export { AvatarIcon } from './AvatarIcon';
+export { MovementIcon } from './MovementIcon';
+export { CameraIcon } from './CameraIcon';
+export { MusicIcon } from './MusicIcon';
+export { AtmosphericsIcon } from './AtmosphericsIcon';
+export { StudioIcon } from './StudioIcon';
+export { BugsIcon } from './BugsIcon';
+export { UsersIcon } from './UsersIcon';

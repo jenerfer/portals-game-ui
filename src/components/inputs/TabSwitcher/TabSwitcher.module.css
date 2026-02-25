@@ -1,0 +1,68 @@
+.container {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+  height: 40px;
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-pill);
+  overflow: hidden;
+  padding: 3px;
+}
+
+/* ------------------------------------------------------------------ */
+/* Sliding indicator background                                        */
+/* ------------------------------------------------------------------ */
+.indicator {
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: calc(50% - 3px);
+  height: calc(100% - 6px);
+  border-radius: var(--radius-pill);
+  background: var(--color-brand-blue-1);
+  transition: transform var(--transition-slow);
+  pointer-events: none;
+  z-index: 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Tab button                                                          */
+/* ------------------------------------------------------------------ */
+.tab {
+  position: relative;
+  z-index: 1;
+  flex: 1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  margin: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  outline: none;
+
+  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-size: var(--typography-scale-p2-font-size);
+  font-weight: var(--typography-font-weight-light);
+  letter-spacing: var(--typography-scale-p2-letter-spacing);
+  line-height: 1;
+
+  transition: color var(--transition-normal);
+  user-select: none;
+}
+
+.tab:focus-visible {
+  box-shadow: inset 0 0 0 2px var(--semantic-border-selected);
+  border-radius: var(--radius-pill);
+}
+
+.tab.active {
+  color: var(--semantic-text-inverse);
+}
+
+.tab.inactive {
+  color: var(--semantic-text-secondary);
+}

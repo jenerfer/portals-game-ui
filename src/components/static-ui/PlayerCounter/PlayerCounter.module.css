@@ -1,0 +1,56 @@
+/* ------------------------------------------------------------------ */
+/* PlayerCounter — online player count pill                            */
+/* ------------------------------------------------------------------ */
+
+.container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 8px 16px;
+  gap: 8px;
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-light, 6.5px));
+  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--transition-normal);
+}
+
+.container:hover {
+  background: var(--color-glass-raised);
+}
+
+.container:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Online status dot                                                   */
+/* ------------------------------------------------------------------ */
+
+.dot {
+  width: 8px;
+  height: 8px;
+  flex-shrink: 0;
+
+  background-color: var(--color-feedback-success);
+  border-radius: var(--radius-pill, 999px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Count text — p2Bold style                                           */
+/* ------------------------------------------------------------------ */
+
+.count {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p2bold-font-size, 16px);
+  line-height: var(--typography-scale-p2bold-line-height, 16px);
+  letter-spacing: var(--typography-scale-p2bold-letter-spacing, 1px);
+  font-weight: var(--typography-scale-p2bold-font-weight, 600);
+  color: var(--semantic-text-primary);
+}

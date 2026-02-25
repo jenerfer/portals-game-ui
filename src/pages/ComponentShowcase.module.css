@@ -1,0 +1,79 @@
+/* =============================================================
+ * Component Showcase — Layout
+ * ============================================================= */
+
+.viewport {
+  position: relative;
+  width: 100%;
+  height: 100vh;
+  overflow: hidden;
+  background-color: var(--color-ice-7);
+  background-image: url('/images/game-bg.jpg');
+  background-size: cover;
+  background-position: center;
+}
+
+/* ── Panel (left side, offset by BuildBar) ──────────────── */
+.panelAnchor {
+  position: absolute;
+  top: var(--layout-safe-zone);
+  /* BuildBar width (~80px) + gap */
+  left: calc(80px + var(--spacing-3, 10px));
+  z-index: 10;
+  max-height: calc(100vh - var(--layout-safe-zone) * 2);
+  overflow-y: auto;
+  overflow-x: visible;
+  scrollbar-width: thin;
+}
+
+/* ── BuildBar (flush left — ignores safe zone) ─────────── */
+.buildBarAnchor {
+  position: absolute;
+  top: var(--layout-safe-zone);
+  left: 0;
+  z-index: 10;
+}
+
+/* ── Top Right (settings/account icons) ─────────────────── */
+.topRightAnchor {
+  position: absolute;
+  top: var(--layout-safe-zone);
+  right: var(--layout-safe-zone);
+  z-index: 10;
+}
+
+/* ── Bottom Left (comms bar) ────────────────────────────── */
+.bottomLeftAnchor {
+  position: absolute;
+  bottom: var(--layout-safe-zone);
+  left: var(--layout-safe-zone);
+  z-index: 10;
+}
+
+/* ── Bottom Right (player counter) ──────────────────────── */
+.bottomRightAnchor {
+  position: absolute;
+  bottom: var(--layout-safe-zone);
+  right: var(--layout-safe-zone);
+  z-index: 10;
+}
+
+/* ── Tags ────────────────────────────────────────────────── */
+.tagWrap {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--spacing-3);
+}
+
+/* ── Title overlay (center-bottom area) ─────────────────── */
+.titleOverlay {
+  position: absolute;
+  bottom: calc(var(--layout-safe-zone) + 60px);
+  right: var(--layout-safe-zone);
+  text-align: right;
+  display: flex;
+  flex-direction: column;
+  gap: var(--spacing-3);
+  pointer-events: none;
+  opacity: 0.3;
+}

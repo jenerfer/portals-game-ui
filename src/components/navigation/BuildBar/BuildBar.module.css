@@ -1,0 +1,118 @@
+/* ------------------------------------------------------------------ */
+/* BuildBar — vertical icon toolbar (sidebar)                         */
+/* ------------------------------------------------------------------ */
+
+.bar {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: var(--spacing-5, 15px);
+  gap: var(--spacing-1, 5px);
+
+  background: var(--color-glass-base);
+  backdrop-filter: blur(var(--blur-standard, 20px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 20px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-left: none;
+  border-radius: 0 var(--radius-xl, 15px) var(--radius-xl, 15px) 0;
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon button                                                         */
+/* ------------------------------------------------------------------ */
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-xl, 15px);
+
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--transition-normal);
+}
+
+.iconButton:hover {
+  background: var(--color-glass-raised);
+}
+
+.iconButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon                                                                */
+/* ------------------------------------------------------------------ */
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--semantic-icon-subtle);
+  transition: color var(--transition-normal);
+}
+
+.iconButton:hover .icon {
+  color: var(--semantic-icon-subtle-hover);
+}
+
+/* ------------------------------------------------------------------ */
+/* Active state                                                        */
+/* ------------------------------------------------------------------ */
+
+.active {
+  background: var(--color-brand-blue-1);
+}
+
+.active:hover {
+  background: var(--color-brand-blue-1);
+}
+
+.active .icon,
+.active:hover .icon {
+  color: var(--semantic-icon-inverse);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tooltip — appears to the right on hover                             */
+/* ------------------------------------------------------------------ */
+
+.tooltip {
+  position: absolute;
+  left: calc(100% + 10px);
+  top: 50%;
+  transform: translateY(-50%);
+
+  padding: 8px 14px;
+  background: var(--color-glass-base);
+  backdrop-filter: blur(var(--blur-standard, 20px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 20px));
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  letter-spacing: var(--typography-scale-p3-letter-spacing, 1px);
+  font-weight: var(--typography-scale-p3-font-weight, 300);
+  color: var(--semantic-text-primary);
+  white-space: nowrap;
+
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity var(--transition-fast);
+}
+
+.iconButton:hover .tooltip {
+  opacity: 1;
+}

@@ -1,0 +1,140 @@
+.wrapper {
+  position: relative;
+  width: 100%;
+}
+
+/* ------------------------------------------------------------------ */
+/* Trigger button                                                      */
+/* ------------------------------------------------------------------ */
+.trigger {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  height: 55px;
+  padding: 0 18px;
+  background: var(--color-glass-raised);
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-md);
+  outline: none;
+  cursor: pointer;
+
+  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-size: var(--typography-scale-p2-font-size);
+  font-weight: var(--typography-font-weight-light);
+  letter-spacing: var(--typography-scale-p2-letter-spacing);
+  line-height: 1;
+
+  transition:
+    color var(--transition-normal),
+    border-color var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+.trigger:hover:not(:disabled) {
+  background: var(--color-glass-raised-active);
+}
+
+.trigger:hover .value {
+  color: var(--semantic-text-secondary);
+}
+
+.open .trigger {
+  border-color: var(--semantic-border-selected);
+}
+
+.open .trigger .value {
+  color: var(--semantic-text-primary);
+}
+
+.trigger:focus-visible {
+  border-color: var(--semantic-border-selected);
+}
+
+.trigger:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.value {
+  color: var(--semantic-text-muted);
+  transition: color var(--transition-normal);
+}
+
+.placeholder {
+  color: var(--semantic-text-muted);
+}
+
+/* ------------------------------------------------------------------ */
+/* Chevron                                                             */
+/* ------------------------------------------------------------------ */
+.chevron {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-right: 2px solid var(--semantic-text-muted);
+  border-bottom: 2px solid var(--semantic-text-muted);
+  transform: rotate(45deg) translateY(-2px);
+  flex-shrink: 0;
+  transition: transform var(--transition-normal);
+}
+
+.open .chevron {
+  transform: rotate(-135deg) translateY(-2px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Dropdown menu                                                       */
+/* ------------------------------------------------------------------ */
+.menu {
+  position: absolute;
+  top: calc(100% + 6px);
+  left: 0;
+  right: 0;
+  z-index: 100;
+  margin: 0;
+  padding: 6px;
+  list-style: none;
+
+  background: var(--color-glass-raised-active-dark);
+  backdrop-filter: blur(var(--blur-standard, 24px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 24px));
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-md);
+
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+/* ------------------------------------------------------------------ */
+/* Option                                                              */
+/* ------------------------------------------------------------------ */
+.option {
+  display: flex;
+  align-items: center;
+  padding: 12px 14px;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+
+  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-size: var(--typography-scale-p2-font-size);
+  font-weight: var(--typography-font-weight-light);
+  letter-spacing: var(--typography-scale-p2-letter-spacing);
+  line-height: 1;
+  color: var(--semantic-text-primary);
+
+  transition: background-color var(--transition-fast);
+  user-select: none;
+}
+
+.option:hover {
+  background: var(--color-glass-raised-active);
+}
+
+.option.selected {
+  color: var(--semantic-text-blue);
+}
+
+.disabled {
+  pointer-events: none;
+}

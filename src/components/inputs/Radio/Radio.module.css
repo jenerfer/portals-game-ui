@@ -1,0 +1,62 @@
+.wrapper {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-3);
+  padding: 0;
+  margin: 0;
+  background: none;
+  border: none;
+  cursor: pointer;
+  outline: none;
+}
+
+.wrapper:focus-visible .circle {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+.wrapper.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ------------------------------------------------------------------ */
+/* Custom radio circle                                                 */
+/* ------------------------------------------------------------------ */
+.circle {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  border-radius: 50%;
+  border: 2px solid var(--semantic-border-default);
+  flex-shrink: 0;
+  transition:
+    border-color var(--transition-normal),
+    background-color var(--transition-normal);
+}
+
+.circle.selected {
+  border-color: var(--semantic-border-selected);
+}
+
+.dot {
+  display: block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Label                                                               */
+/* ------------------------------------------------------------------ */
+.label {
+  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-size: var(--typography-scale-p2-font-size);
+  font-weight: var(--typography-font-weight-light);
+  letter-spacing: var(--typography-scale-p2-letter-spacing);
+  line-height: var(--typography-scale-p2-line-height);
+  color: var(--semantic-text-primary);
+  user-select: none;
+}
