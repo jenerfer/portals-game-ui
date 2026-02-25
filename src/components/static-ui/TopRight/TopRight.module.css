@@ -1,11 +1,20 @@
 /* ------------------------------------------------------------------ */
-/* TopRight — settings / account icon buttons                          */
+/* TopRight — pill bar with build-tools / menu icon buttons            */
 /* ------------------------------------------------------------------ */
 
 .container {
   display: flex;
   flex-direction: row;
-  gap: var(--spacing-2, 8px);
+  align-items: center;
+  padding: var(--spacing-3, 10px);
+  gap: var(--spacing-3, 10px);
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-standard, 20px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 20px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
 }
 
 /* ------------------------------------------------------------------ */
@@ -16,15 +25,14 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 44px;
-  height: 44px;
+  padding: 6px 8px;
   flex-shrink: 0;
 
-  background: var(--color-glass-base-light);
+  background: transparent;
   backdrop-filter: blur(var(--blur-subtle, 5.2px));
   -webkit-backdrop-filter: blur(var(--blur-subtle, 5.2px));
 
-  border: 1px solid var(--semantic-border-default);
+  border: none;
   border-radius: var(--radius-pill, 999px);
 
   cursor: pointer;
@@ -32,10 +40,6 @@
   transition:
     background-color var(--transition-normal),
     color var(--transition-normal);
-}
-
-.iconButton:hover {
-  background: var(--color-glass-raised);
 }
 
 .iconButton:focus-visible {
@@ -50,17 +54,32 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 20px;
-  height: 20px;
+  width: 24px;
+  height: 24px;
   color: var(--semantic-icon-default);
   transition: color var(--transition-normal);
 }
 
-.iconButton:hover .icon {
-  color: var(--semantic-text-primary);
+/* ------------------------------------------------------------------ */
+/* Hover state — glass-base-light bg, icon stays default               */
+/* ------------------------------------------------------------------ */
+
+.iconButton:not(.active):hover {
+  background: var(--color-glass-base-light);
 }
 
-.iconButton:focus-visible .icon,
-.iconButton:active .icon {
+.iconButton:not(.active):hover .icon {
+  color: var(--semantic-icon-default);
+}
+
+/* ------------------------------------------------------------------ */
+/* Active state — glass-base bg + blue icon, no hover change           */
+/* ------------------------------------------------------------------ */
+
+.active {
+  background: var(--color-glass-base);
+}
+
+.active .icon {
   color: var(--semantic-icon-active);
 }

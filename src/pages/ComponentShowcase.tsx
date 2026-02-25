@@ -33,10 +33,10 @@ import { BuildBar } from '@/components/navigation/BuildBar';
 import { CommsBar } from '@/components/static-ui/CommsBar';
 import { PlayerCounter } from '@/components/static-ui/PlayerCounter';
 import { TopRight } from '@/components/static-ui/TopRight';
-import { AccountEditMode } from '@/components/static-ui/AccountEditMode';
-
 // Icons
 import { MicIcon, ChatIcon } from '@/icons';
+import { WrenchIcon } from '@/icons/WrenchIcon';
+import { HamburgerIcon } from '@/icons/HamburgerIcon';
 import { GeneralIcon } from '@/icons/GeneralIcon';
 import { InventoryIcon } from '@/icons/InventoryIcon';
 import { BuildSettingsIcon } from '@/icons/BuildSettingsIcon';
@@ -112,8 +112,8 @@ export default function ComponentShowcase() {
   const [buildBarActive, setBuildBarActive] = useState('general');
 
   // Static UI states
-  const [editMode, setEditMode] = useState<'build' | 'account'>('build');
   const [activeComms, setActiveComms] = useState<Set<string>>(new Set());
+  const [activeTopRight, setActiveTopRight] = useState<Set<string>>(new Set());
 
   // Data
   const allTags = ['plants', 'chairs', 'doors', 'bricks', 'floors', 'decor'];
@@ -159,8 +159,8 @@ export default function ComponentShowcase() {
   ];
 
   const topRightItems = [
-    { id: 'settings', icon: <GearIcon size={20} />, label: 'Settings' },
-    { id: 'account', icon: <UserIcon size={20} />, label: 'Account' },
+    { id: 'build-tools', icon: <WrenchIcon size={24} />, label: 'Build Tools', active: activeTopRight.has('build-tools') },
+    { id: 'menu', icon: <HamburgerIcon size={24} />, label: 'Menu', active: activeTopRight.has('menu') },
   ];
 
   const toggleTag = (tag: string) => {
@@ -335,10 +335,14 @@ export default function ComponentShowcase() {
 
       {/* ── Static UI: Top Right ──────────────────────── */}
       <div className={styles.topRightAnchor}>
-        <Box direction="row" gap={10} align="center">
-          <AccountEditMode mode={editMode} onChange={setEditMode} />
-          <TopRight items={topRightItems} />
-        </Box>
+        <TopRight
+          items={topRightItems}
+          onItemClick={(id) => setActiveTopRight((prev) => {
+            const next = new Set(prev);
+            if (next.has(id)) next.delete(id); else next.add(id);
+            return next;
+          })}
+        />
       </div>
 
       {/* ── Static UI: Bottom Left ────────────────────── */}

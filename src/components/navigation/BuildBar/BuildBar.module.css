@@ -15,7 +15,7 @@
 
   border: 1px solid var(--semantic-border-default);
   border-left: none;
-  border-radius: 0 var(--radius-xl, 15px) var(--radius-xl, 15px) 0;
+  border-radius: 0 var(--radius-2xl, 30px) var(--radius-2xl, 30px) 0;
 }
 
 /* ------------------------------------------------------------------ */

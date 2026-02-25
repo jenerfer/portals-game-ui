@@ -15,3 +15,5 @@ export { AtmosphericsIcon } from './AtmosphericsIcon';
 export { StudioIcon } from './StudioIcon';
 export { BugsIcon } from './BugsIcon';
 export { UsersIcon } from './UsersIcon';
+export { WrenchIcon } from './WrenchIcon';
+export { HamburgerIcon } from './HamburgerIcon';
