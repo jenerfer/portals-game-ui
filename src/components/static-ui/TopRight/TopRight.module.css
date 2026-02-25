@@ -9,7 +9,7 @@
   padding: var(--spacing-3, 10px);
   gap: var(--spacing-3, 10px);
 
-  background: var(--color-glass-base-light);
+  background: var(--color-glass-base);
   backdrop-filter: blur(var(--blur-standard, 20px));
   -webkit-backdrop-filter: blur(var(--blur-standard, 20px));
 
@@ -29,8 +29,6 @@
   flex-shrink: 0;
 
   background: transparent;
-  backdrop-filter: blur(var(--blur-subtle, 5.2px));
-  -webkit-backdrop-filter: blur(var(--blur-subtle, 5.2px));
 
   border: none;
   border-radius: var(--radius-pill, 999px);
@@ -61,25 +59,30 @@
 }
 
 /* ------------------------------------------------------------------ */
-/* Hover state — glass-base-light bg, icon stays default               */
+/* Hover state — glass-hover circle, icon subtle-hover                 */
 /* ------------------------------------------------------------------ */
 
 .iconButton:not(.active):hover {
-  background: var(--color-glass-base-light);
+  background: var(--color-glass-hover);
 }
 
 .iconButton:not(.active):hover .icon {
-  color: var(--semantic-icon-default);
+  color: var(--semantic-icon-default-hover);
 }
 
 /* ------------------------------------------------------------------ */
-/* Active state — glass-base bg + blue icon, no hover change           */
+/* Active state — blue circle + inverse icon, no hover change          */
 /* ------------------------------------------------------------------ */
 
 .active {
-  background: var(--color-glass-base);
+  background: var(--color-brand-blue-1);
 }
 
-.active .icon {
-  color: var(--semantic-icon-active);
+.active:hover {
+  background: var(--color-brand-blue-1);
+}
+
+.active .icon,
+.active:hover .icon {
+  color: var(--semantic-icon-inverse);
 }

@@ -40,10 +40,6 @@
   transition: background-color var(--transition-normal);
 }
 
-.iconButton:hover {
-  background: var(--color-glass-raised);
-}
-
 .iconButton:focus-visible {
   box-shadow: 0 0 0 2px var(--semantic-border-selected);
 }
@@ -60,6 +56,14 @@
   height: 24px;
   color: var(--semantic-icon-subtle);
   transition: color var(--transition-normal);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hover state — glass-raised bg, icon brightens                       */
+/* ------------------------------------------------------------------ */
+
+.iconButton:hover {
+  background: var(--color-glass-raised);
 }
 
 .iconButton:hover .icon {
