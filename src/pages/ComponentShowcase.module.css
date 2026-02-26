@@ -106,6 +106,15 @@
   z-index: 10;
 }
 
+/* ── Notification (top centre) ────────────────────────────── */
+.notificationAnchor {
+  position: absolute;
+  top: var(--layout-safe-zone);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 20;
+}
+
 /* ── Tags ────────────────────────────────────────────────── */
 .tagWrap {
   display: flex;

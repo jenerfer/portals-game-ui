@@ -1,0 +1,95 @@
+/* =============================================================
+ * GameNotification — in-game toast pill
+ * ============================================================= */
+
+.notification {
+  display: flex;
+  align-items: center;
+  gap: 19px;
+  padding: 12px 13px;
+  background: var(--color-glass-raised-active);
+  backdrop-filter: blur(40px);
+  -webkit-backdrop-filter: blur(40px);
+  border-radius: 999px;
+  animation: slideIn 0.45s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.notification.exiting {
+  animation: slideOut 0.4s cubic-bezier(0.4, 0, 1, 1) forwards;
+}
+
+/* ── Avatar ────────────────────────────────────────────── */
+
+.avatar {
+  width: 37px;
+  height: 37px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── Message ───────────────────────────────────────────── */
+
+.message {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p2bold-font-weight, 600);
+  font-size: var(--typography-scale-p2-font-size, 16px);
+  line-height: var(--typography-scale-p2-line-height, 16px);
+  letter-spacing: var(--typography-scale-p2-letter-spacing, 1px);
+  color: var(--semantic-text-primary);
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.username {
+  color: var(--color-brand-blue-1);
+}
+
+/* ── Action button ─────────────────────────────────────── */
+
+.action {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 17px;
+  background: var(--color-ice-1);
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  flex-shrink: 0;
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p3bold-font-weight, 500);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  letter-spacing: var(--typography-scale-p3-letter-spacing, 1px);
+  color: var(--color-named-portals-slate);
+  transition: opacity var(--transition-normal);
+}
+
+.action:hover {
+  opacity: 0.85;
+}
+
+/* ── Keyframes ─────────────────────────────────────────── */
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-12px);
+  }
+}

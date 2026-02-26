@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useEffect } from 'react';
 
 // Layout
 import { Panel } from '@/components/layout/Panel';
@@ -25,6 +25,9 @@ import { VideoPlaceholder } from '@/components/media/VideoPlaceholder';
 // Navigation
 import { BuildBar } from '@/components/navigation/BuildBar';
 import { TabNav } from '@/components/navigation/TabNav';
+
+// Feedback
+import { GameNotification } from '@/components/feedback/GameNotification';
 
 // Data
 import { VersionList } from '@/components/data/VersionList';
@@ -153,6 +156,30 @@ export default function ComponentShowcase() {
     { id: 'build-tools', icon: <WrenchIcon size={24} />, label: 'Build Tools', active: activeTopRight.has('build-tools') },
     { id: 'menu', icon: <HamburgerIcon size={24} />, label: 'Menu', active: activeTopRight.has('menu') },
   ];
+
+  // Notification cycling
+  const notifications = [
+    { avatarSrc: '/images/bussy-pfp.png', username: '@Bussy', message: 'wants to be your friend', actionLabel: 'respond' },
+    { avatarSrc: '/images/gomez-pfp.png', username: 'Gomez', message: 'is hosting a portals event', actionLabel: 'join now' },
+    { avatarSrc: '/images/butterscotch-pfp.png', username: 'butterscotch', message: 'sent you a message', actionLabel: 'reply' },
+  ];
+  const [notificationIdx, setNotificationIdx] = useState(0);
+  const [showNotification, setShowNotification] = useState(false);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'n' || e.key === 'N') {
+        setShowNotification((prev) => {
+          if (!prev) return true;
+          // already showing — cycle to next
+          setNotificationIdx((i) => (i + 1) % notifications.length);
+          return prev;
+        });
+      }
+    };
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [notifications.length]);
 
   const buildBarVisible = activeTopRight.has('build-tools');
 
@@ -597,6 +624,24 @@ export default function ComponentShowcase() {
       <div className={styles.bottomRightAnchor}>
         <PlayerCounter count={24} />
       </div>
+
+      {/* ── Notification (top centre) ─────────────────── */}
+      {showNotification && (
+        <div className={styles.notificationAnchor}>
+          <GameNotification
+            key={notificationIdx}
+            avatarSrc={notifications[notificationIdx].avatarSrc}
+            username={notifications[notificationIdx].username}
+            message={notifications[notificationIdx].message}
+            actionLabel={notifications[notificationIdx].actionLabel}
+            onAction={() => console.log('action', notifications[notificationIdx].actionLabel)}
+            onDismiss={() => {
+              setShowNotification(false);
+              setNotificationIdx((i) => (i + 1) % notifications.length);
+            }}
+          />
+        </div>
+      )}
 
     </div>
   );
