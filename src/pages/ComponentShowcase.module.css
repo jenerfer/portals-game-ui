@@ -24,6 +24,26 @@
   overflow-y: auto;
   overflow-x: visible;
   scrollbar-width: thin;
+
+  /* slide via `left` — no transform/opacity on wrapper to preserve child backdrop-filter */
+  transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1) 0.06s;
+}
+
+/* fade on the direct child (which owns the backdrop-filter) */
+.panelAnchor > * {
+  opacity: 1;
+  transition: opacity 0.3s ease 0.06s;
+}
+
+.panelAnchor.hidden {
+  left: calc(50px + var(--spacing-3, 10px));
+  pointer-events: none;
+  transition-delay: 0s;
+}
+
+.panelAnchor.hidden > * {
+  opacity: 0;
+  transition-delay: 0s;
 }
 
 /* ── BuildBar (flush left — ignores safe zone) ─────────── */
@@ -32,6 +52,24 @@
   top: var(--layout-safe-zone);
   left: 0;
   z-index: 10;
+
+  /* slide via `left` — no transform/opacity on wrapper to preserve child backdrop-filter */
+  transition: left 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* fade on the direct child (which owns the backdrop-filter) */
+.buildBarAnchor > * {
+  opacity: 1;
+  transition: opacity 0.3s ease;
+}
+
+.buildBarAnchor.hidden {
+  left: -80px;
+  pointer-events: none;
+}
+
+.buildBarAnchor.hidden > * {
+  opacity: 0;
 }
 
 /* ── Top Right (settings/account icons) ─────────────────── */

@@ -103,7 +103,7 @@ export default function ComponentShowcase() {
 
   // Static UI states
   const [activeComms, setActiveComms] = useState<Set<string>>(new Set());
-  const [activeTopRight, setActiveTopRight] = useState<Set<string>>(new Set());
+  const [activeTopRight, setActiveTopRight] = useState<Set<string>>(new Set(['build-tools']));
 
   // Data
   const allTags = ['plants', 'chairs', 'doors', 'bricks', 'floors', 'decor'];
@@ -159,10 +159,12 @@ export default function ComponentShowcase() {
     );
   };
 
+  const buildBarVisible = activeTopRight.has('build-tools');
+
   return (
     <div className={styles.viewport}>
       {/* ── BuildBar (left edge) ─────────────────────── */}
-      <div className={styles.buildBarAnchor}>
+      <div className={`${styles.buildBarAnchor} ${!buildBarVisible ? styles.hidden : ''}`}>
         <BuildBar
           items={buildBarItems}
           activeId={buildBarActive}
@@ -171,7 +173,7 @@ export default function ComponentShowcase() {
       </div>
 
       {/* ── Main Panel ───────────────────────────────── */}
-      <div className={styles.panelAnchor}>
+      <div className={`${styles.panelAnchor} ${!buildBarVisible ? styles.hidden : ''}`}>
         {activePanel === 'main' ? (
           <Panel>
             <PanelHeader title="settings" onClose={() => {}} />
@@ -349,7 +351,7 @@ export default function ComponentShowcase() {
 
       {/* ── Static UI: Bottom Right ───────────────────── */}
       <div className={styles.bottomRightAnchor}>
-        <PlayerCounter count={24} maxCount={50} />
+        <PlayerCounter count={24} />
       </div>
 
     </div>
