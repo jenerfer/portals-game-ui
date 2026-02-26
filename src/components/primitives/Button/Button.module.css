@@ -6,7 +6,8 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  border: none;
+  width: fit-content;
+  border: 2px solid transparent;
   border-radius: 999px;
   font-family: var(--typography-font-family-body);
   font-weight: 600;
@@ -24,11 +25,15 @@
 /* ===== Size variants ============================================== */
 
 .size-default {
-  padding: 20px 25px;
+  padding: var(--button-default-padding-y) var(--button-default-padding-x);
+  font-size: var(--button-default-font-size, 16px);
+  line-height: var(--button-default-line-height, 16px);
 }
 
 .size-micro {
-  padding: 10px 17px;
+  padding: var(--button-micro-padding-y) var(--button-micro-padding-x);
+  font-size: var(--button-micro-font-size, 14px);
+  line-height: var(--button-micro-line-height, 14px);
 }
 
 /* ===== Color / style variants ===================================== */
@@ -69,20 +74,20 @@
 /* --- Outline ------------------------------------------------------ */
 
 .variant-outline {
-  border: 2px solid var(--color-ice-3);
+  border-color: var(--semantic-text-muted);
   background-color: transparent;
   color: var(--semantic-text-secondary);
 }
 
 .variant-outline:hover:not(:disabled) {
-  border-color: var(--color-ice-1);
+  border-color: var(--semantic-text-primary);
   color: var(--semantic-text-primary);
 }
 
 /* --- Disabled ----------------------------------------------------- */
 
 .variant-disabled {
-  border: 2px solid var(--semantic-border-default);
+  border-color: var(--semantic-border-default);
   background-color: transparent;
   color: var(--semantic-text-disabled);
   cursor: not-allowed;

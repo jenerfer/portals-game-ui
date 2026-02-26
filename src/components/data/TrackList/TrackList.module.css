@@ -1,0 +1,82 @@
+/* =============================================================
+ * TrackList — reorderable music track rows
+ * ============================================================= */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-4, 12px);
+  padding: 14px var(--spacing-5, 16px);
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-md, 10px);
+  transition: background var(--transition-normal), opacity var(--transition-normal);
+}
+
+.row:hover {
+  background: var(--color-glass-raised-hover);
+}
+
+/* ── Drag states ──────────────────────────────────────────── */
+
+.row.dragging {
+  opacity: 0.4;
+}
+
+.row.dropTarget {
+  background: var(--color-glass-raised-hover);
+  box-shadow: inset 0 0 0 1px var(--semantic-border-selected);
+}
+
+/* ── Drag handle ──────────────────────────────────────────── */
+
+.dragHandle {
+  display: flex;
+  align-items: center;
+  color: var(--semantic-text-muted);
+  cursor: grab;
+  flex-shrink: 0;
+}
+
+.dragging .dragHandle {
+  cursor: grabbing;
+}
+
+/* ── Track name ───────────────────────────────────────────── */
+
+.name {
+  flex: 1;
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p2-font-size, 16px);
+  line-height: var(--typography-scale-p2-line-height, 16px);
+  letter-spacing: var(--typography-scale-p2-letter-spacing, 0.5px);
+  font-weight: var(--typography-font-weight-light, 300);
+  color: var(--semantic-text-secondary);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* ── More button ──────────────────────────────────────────── */
+
+.moreBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--semantic-text-muted);
+  flex-shrink: 0;
+  transition: color var(--transition-normal);
+}
+
+.moreBtn:hover {
+  color: var(--semantic-text-primary);
+}

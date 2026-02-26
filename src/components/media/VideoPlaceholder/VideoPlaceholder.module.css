@@ -1,0 +1,16 @@
+/* =============================================================
+ * VideoPlaceholder — 16:9 embed placeholder with play icon
+ * ============================================================= */
+
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-xl, 15px);
+}
+
+.playIcon {
+  color: var(--semantic-text-muted);
+}

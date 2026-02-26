@@ -35,6 +35,16 @@
   letter-spacing: var(--typography-scale-h2-letter-spacing);
 }
 
+.h2Divider {
+  font-family: var(--typography-font-family-heading);
+  font-weight: var(--typography-scale-h2-font-weight);
+  font-size: var(--typography-scale-h2-font-size);
+  line-height: var(--typography-scale-h2-line-height);
+  letter-spacing: var(--typography-scale-h2-letter-spacing);
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--semantic-border-default);
+}
+
 /* --- P1 (18px) ---------------------------------------------------- */
 
 .p1 {

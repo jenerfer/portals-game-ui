@@ -46,6 +46,16 @@
   transition-delay: 0s;
 }
 
+/* Panel-only close (X button) — fade child out, keep BuildBar open */
+.panelAnchor.closing {
+  pointer-events: none;
+}
+
+.panelAnchor.closing > * {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
 /* ── BuildBar (flush left — ignores safe zone) ─────────── */
 .buildBarAnchor {
   position: absolute;

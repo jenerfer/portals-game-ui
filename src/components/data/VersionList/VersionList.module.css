@@ -1,0 +1,63 @@
+/* =============================================================
+ * VersionList — scrollable restore-point list
+ * ============================================================= */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Individual row ──────────────────────────────────────── */
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--spacing-5, 16px) var(--spacing-5, 16px);
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-md, 10px);
+  cursor: default;
+  transition: background var(--transition-normal);
+}
+
+.row:hover {
+  background: var(--color-glass-raised-hover);
+}
+
+/* ── Left: date + count ──────────────────────────────────── */
+
+.info {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.date {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-p2, 14px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--semantic-text-primary);
+}
+
+.dateHighlight {
+  color: var(--color-brand-blue-1);
+}
+
+.count {
+  font-family: var(--font-family-primary);
+  font-size: var(--font-size-p3, 12px);
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--semantic-text-muted);
+}
+
+/* ── Right: restore button (visible on row hover) ────────── */
+
+.restoreWrap {
+  opacity: 0;
+  transition: opacity var(--transition-normal);
+}
+
+.row:hover .restoreWrap {
+  opacity: 1;
+}

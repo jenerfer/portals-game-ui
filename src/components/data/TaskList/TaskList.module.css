@@ -1,0 +1,63 @@
+/* =============================================================
+ * TaskList — debug task rows with traffic-light status
+ * ============================================================= */
+
+.list {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px var(--spacing-5, 16px);
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-md, 10px);
+  border: none;
+  cursor: pointer;
+  outline: none;
+  transition: background var(--transition-normal);
+}
+
+.row:hover {
+  background: var(--color-glass-raised-hover);
+}
+
+.name {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p2-font-size, 16px);
+  line-height: var(--typography-scale-p2-line-height, 16px);
+  letter-spacing: var(--typography-scale-p2-letter-spacing, 0.5px);
+  font-weight: var(--typography-font-weight-light, 300);
+  color: var(--semantic-text-secondary);
+}
+
+/* ── Traffic light pills ─────────────────────────────────── */
+
+.lights {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.pill {
+  width: 18px;
+  height: 8px;
+  border-radius: var(--radius-pill, 999px);
+  background: var(--semantic-text-disabled);
+  transition: background var(--transition-normal);
+}
+
+.pill.error {
+  background: var(--color-feedback-error);
+}
+
+.pill.warning {
+  background: var(--color-feedback-warning);
+}
+
+.pill.success {
+  background: var(--color-feedback-success);
+}

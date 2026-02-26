@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useCallback } from 'react';
 
 // Layout
 import { Panel } from '@/components/layout/Panel';
@@ -8,26 +8,29 @@ import { ItemHeader } from '@/components/layout/ItemHeader';
 // Primitives
 import { Text } from '@/components/primitives/Text';
 import { Button } from '@/components/primitives/Button';
-import { Box } from '@/components/primitives/Box';
 
 // Inputs
 import { Toggle } from '@/components/inputs/Toggle';
 import { Slider } from '@/components/inputs/Slider';
-import { TextEntry } from '@/components/inputs/TextEntry';
-import { Dropdown } from '@/components/inputs/Dropdown';
-import { Radio } from '@/components/inputs/Radio';
-import { CheckSelect } from '@/components/inputs/CheckSelect';
-import { Coordinates } from '@/components/inputs/Coordinates';
 import { TabSwitcher } from '@/components/inputs/TabSwitcher';
+import { ColorSwatchPicker } from '@/components/inputs/ColorSwatchPicker';
 
 // Selectors
-import { MultiTagSelector } from '@/components/selectors/MultiTagSelector';
 import { GraphicSelectorGrid } from '@/components/selectors/GraphicSelectorGrid';
-import { GraphicSelectorHorizontal } from '@/components/selectors/GraphicSelectorHorizontal';
+import { SkyboxSelector } from '@/components/selectors/SkyboxSelector';
+
+// Media
+import { VideoPlaceholder } from '@/components/media/VideoPlaceholder';
 
 // Navigation
-import { ClickThruPanel } from '@/components/navigation/ClickThruPanel';
 import { BuildBar } from '@/components/navigation/BuildBar';
+import { TabNav } from '@/components/navigation/TabNav';
+
+// Data
+import { VersionList } from '@/components/data/VersionList';
+import { UserList } from '@/components/data/UserList';
+import { TaskList } from '@/components/data/TaskList';
+import { TrackList } from '@/components/data/TrackList';
 
 // Static UI
 import { CommsBar } from '@/components/static-ui/CommsBar';
@@ -63,69 +66,67 @@ function PlaceholderIcon({ size = 24 }: { size?: number }) {
   );
 }
 
-function StarIcon({ size = 24 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polygon points="12,2 15.09,8.26 22,9.27 17,14.14 18.18,21.02 12,17.77 5.82,21.02 7,14.14 2,9.27 8.91,8.26" />
-    </svg>
-  );
-}
-
-function GearIcon({ size = 24 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <circle cx="12" cy="12" r="3" />
-      <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-    </svg>
-  );
-}
-
 /* ── Component Showcase ─────────────────────────────────── */
 
 export default function ComponentShowcase() {
-  // Input states
-  const [sliderVal, setSliderVal] = useState(42);
-  const [toggleOn, setToggleOn] = useState(true);
-  const [textVal, setTextVal] = useState('');
-  const [dropdownVal, setDropdownVal] = useState('option1');
-  const [radioVal, setRadioVal] = useState('low');
-  const [tabIdx, setTabIdx] = useState(0);
-  const [coords, setCoords] = useState({ x: 12.5, y: -3.2, z: 0 });
-
-  // Selector states
-  const [selectedTags, setSelectedTags] = useState<string[]>(['plants', 'bricks']);
-  const [gridSelection, setGridSelection] = useState('item1');
-  const [horzSelection, setHorzSelection] = useState('h1');
-
   // Navigation states
-  const [activePanel, setActivePanel] = useState<'main' | 'sub'>('main');
   const [buildBarActive, setBuildBarActive] = useState('general');
+
+  // Users panel
+  const [usersTab, setUsersTab] = useState('banned');
+
+  // Avatar panel
+  const [avatarSelection, setAvatarSelection] = useState('explorers');
+
+  // Camera panel
+  const [cameraPreset, setCameraPreset] = useState('platformer');
+
+  // Movement panel
+  const [movementProfile, setMovementProfile] = useState('anti-grav');
+
+  // Atmospherics panel
+  const [atmosTab, setAtmosTab] = useState(1); // 0=day, 1=night
+  const [skyboxIdx, setSkyboxIdx] = useState(0);
+  const [fogDistance, setFogDistance] = useState(47);
+  const [fogColor, setFogColor] = useState('#B8C47A');
+  const [bloomIntensity, setBloomIntensity] = useState(23);
+  const [bloomClamp, setBloomClamp] = useState(23);
+  const [bloomDiffusion, setBloomDiffusion] = useState(23);
+
+  // Music panel
+  const [tracks, setTracks] = useState([
+    { id: 'tr1', name: 'mymusictrack01.mp3' },
+    { id: 'tr2', name: 'mymusictrack02.mp3' },
+    { id: 'tr3', name: 'mymusictrack03.mp3' },
+    { id: 'tr4', name: 'mymusictrack04.mp3' },
+  ]);
+
+  const handleTrackReorder = useCallback((fromIdx: number, toIdx: number) => {
+    setTracks((prev) => {
+      const next = [...prev];
+      const [moved] = next.splice(fromIdx, 1);
+      next.splice(toIdx, 0, moved);
+      return next;
+    });
+  }, []);
+
+  // Debug panel
+  const [debugTab, setDebugTab] = useState(1); // 0=day, 1=night
+
+  // Panel close animation
+  const [closingPanel, setClosingPanel] = useState(false);
+
+  const handlePanelClose = useCallback(() => {
+    setClosingPanel(true);
+    setTimeout(() => {
+      setBuildBarActive('');
+      setClosingPanel(false);
+    }, 300); // matches CSS transition duration
+  }, []);
 
   // Static UI states
   const [activeComms, setActiveComms] = useState<Set<string>>(new Set());
   const [activeTopRight, setActiveTopRight] = useState<Set<string>>(new Set(['build-tools']));
-
-  // Data
-  const allTags = ['plants', 'chairs', 'doors', 'bricks', 'floors', 'decor'];
-  const dropdownOptions = [
-    { value: 'option1', label: 'Low Quality' },
-    { value: 'option2', label: 'Medium Quality' },
-    { value: 'option3', label: 'High Quality' },
-    { value: 'option4', label: 'Ultra Quality' },
-  ];
-
-  const gridItems = [
-    { id: 'item1', icon: <PlaceholderIcon />, label: 'Walls' },
-    { id: 'item2', icon: <StarIcon />, label: 'Floors' },
-    { id: 'item3', icon: <GearIcon />, label: 'Props' },
-    { id: 'item4', icon: <PlaceholderIcon />, label: 'Lights' },
-  ];
-
-  const horzItems = [
-    { id: 'h1', icon: <PlaceholderIcon size={20} />, label: 'Modern' },
-    { id: 'h2', icon: <StarIcon size={20} />, label: 'Classic' },
-    { id: 'h3', icon: <GearIcon size={20} />, label: 'Industrial' },
-  ];
 
   const buildBarItems = [
     { id: 'general', icon: <GeneralIcon />, label: 'General' },
@@ -153,12 +154,6 @@ export default function ComponentShowcase() {
     { id: 'menu', icon: <HamburgerIcon size={24} />, label: 'Menu', active: activeTopRight.has('menu') },
   ];
 
-  const toggleTag = (tag: string) => {
-    setSelectedTags((prev) =>
-      prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag],
-    );
-  };
-
   const buildBarVisible = activeTopRight.has('build-tools');
 
   return (
@@ -173,156 +168,405 @@ export default function ComponentShowcase() {
       </div>
 
       {/* ── Main Panel ───────────────────────────────── */}
-      <div className={`${styles.panelAnchor} ${!buildBarVisible ? styles.hidden : ''}`}>
-        {activePanel === 'main' ? (
+      <div className={`${styles.panelAnchor} ${!buildBarVisible ? styles.hidden : ''} ${closingPanel ? styles.closing : ''}`}>
+
+        {/* ── General ──────────────────────────────────── */}
+        {buildBarActive === 'general' && (
           <Panel>
-            <PanelHeader title="settings" onClose={() => {}} />
+            <PanelHeader title="general" onClose={handlePanelClose} />
 
-            {/* Buttons Section */}
-            <ItemHeader title="buttons" />
-            <Box direction="column" gap={10}>
-              <Box direction="row" gap={10}>
-                <Button variant="primary-blue" size="micro">primary</Button>
-                <Button variant="secondary-white" size="micro">secondary</Button>
-              </Box>
-              <Box direction="row" gap={10}>
-                <Button variant="tertiary" size="micro">tertiary</Button>
-                <Button variant="outline" size="micro">outline</Button>
-              </Box>
-              <Box direction="row" gap={10}>
-                <Button variant="disabled" size="micro">disabled</Button>
-              </Box>
-            </Box>
-
-            {/* Toggle */}
-            <ItemHeader title="toggle" hasHelpIcon />
-            <Box direction="row" gap={20} align="center">
-              <Toggle checked={toggleOn} onChange={setToggleOn} />
-              <Text variant="p2" color="secondary">
-                {toggleOn ? 'enabled' : 'disabled'}
-              </Text>
-            </Box>
-
-            {/* Slider */}
-            <ItemHeader title="render quality" hasHelpIcon />
-            <Slider value={sliderVal} onChange={setSliderVal} min={0} max={100} />
-
-            {/* Text Entry */}
-            <ItemHeader title="text entry" />
-            <TextEntry
-              value={textVal}
-              onChange={setTextVal}
-              placeholder="enter world name..."
-            />
-
-            {/* Dropdown */}
-            <ItemHeader title="quality preset" />
-            <Dropdown
-              options={dropdownOptions}
-              value={dropdownVal}
-              onChange={setDropdownVal}
-            />
-
-            {/* Radio */}
-            <ItemHeader title="shadow quality" />
-            <Box direction="column" gap={12}>
-              {['low', 'medium', 'high'].map((val) => (
-                <Radio
-                  key={val}
-                  value={val}
-                  label={val}
-                  selected={radioVal === val}
-                  onChange={setRadioVal}
-                />
-              ))}
-            </Box>
-
-            {/* Check Select */}
-            <ItemHeader title="features" />
-            <Box direction="column" gap={12}>
-              <CheckSelect label="anti-aliasing" defaultChecked={true} />
-              <CheckSelect label="ambient occlusion" defaultChecked={false} />
-              <CheckSelect label="bloom" defaultChecked={true} />
-            </Box>
-
-            {/* Coordinates */}
-            <ItemHeader title="spawn position" />
-            <Coordinates value={coords} onChange={setCoords} />
-
-            {/* Tab Switcher */}
-            <ItemHeader title="view mode" />
-            <TabSwitcher
-              tabs={['first person', 'third person']}
-              activeTab={tabIdx}
-              onChange={setTabIdx}
-            />
-
-            {/* Multi Tag Selector */}
-            <ItemHeader title="categories" hasHelpIcon />
-            <div className={styles.tagWrap}>
-              {allTags.map((tag) => (
-                <MultiTagSelector
-                  key={tag}
-                  label={tag}
-                  selected={selectedTags.includes(tag)}
-                  onClick={() => toggleTag(tag)}
-                />
-              ))}
-            </div>
-
-            {/* Graphic Selector Grid */}
-            <ItemHeader title="object type" />
-            <GraphicSelectorGrid
-              items={gridItems}
-              selectedId={gridSelection}
-              onChange={setGridSelection}
-            />
-
-            {/* Graphic Selector Horizontal */}
-            <ItemHeader title="style" />
-            <GraphicSelectorHorizontal
-              items={horzItems}
-              selectedId={horzSelection}
-              onChange={setHorzSelection}
-            />
-
-            {/* Click-thru navigation */}
-            <ItemHeader title="navigation" />
-            <ClickThruPanel
-              label="advanced settings"
-              icon={<GearIcon size={24} />}
-              onClick={() => setActivePanel('sub')}
-            />
-            <ClickThruPanel label="audio settings" />
-            <ClickThruPanel label="controls" />
-
-            {/* Footer buttons */}
-            <Box direction="row" gap={20} style={{ marginTop: 10 }}>
-              <Button variant="primary-blue" size="micro">save</Button>
-              <Button variant="outline" size="micro">cancel</Button>
-            </Box>
-          </Panel>
-        ) : (
-          <Panel>
-            <PanelHeader
-              title="advanced settings"
-              hasBackIcon
-              onBack={() => setActivePanel('main')}
-              onClose={() => setActivePanel('main')}
-            />
             <ItemHeader
-              title="advanced options"
-              description="configure advanced rendering settings"
+              title="add welcome greeting"
+              description="we need some text here that describes actually what a welcome greeting is"
+              variant="double"
+              hasHelpIcon
+            />
+            <Button variant="primary-blue" size="micro">add</Button>
+
+            <ItemHeader
+              title="player collisions"
+              description="we need some text here that describes actually what a welcome greeting is"
               variant="double"
             />
-            <Slider defaultValue={75} min={0} max={100} />
+            <Toggle defaultChecked={false} />
+
+            <ItemHeader title="preload room models" />
             <Toggle defaultChecked />
-            <Box direction="row" gap={20} style={{ marginTop: 20 }}>
-              <Button variant="primary-blue" size="micro">apply</Button>
-              <Button variant="outline" size="micro">back</Button>
-            </Box>
+
+            <ItemHeader title="preload fast download" />
+            <Toggle defaultChecked />
+
+            <ItemHeader
+              title="hide main ui"
+              description="useful for immersive experiences. Removes all static ui on screen."
+              variant="double"
+            />
+            <Toggle defaultChecked={false} />
           </Panel>
         )}
+
+        {/* ── Inventory ──────────────────────────────────── */}
+        {buildBarActive === 'inventory' && (
+          <Panel>
+            <PanelHeader title="inventory" onClose={handlePanelClose} />
+            <Text variant="p2Para" color="muted">next-gen inventory coming soon!</Text>
+          </Panel>
+        )}
+
+        {/* ── Versions ────────────────────────────────── */}
+        {buildBarActive === 'version' && (
+          <Panel>
+            <PanelHeader title="versions" onClose={handlePanelClose} />
+
+            <Text variant="p2Para" color="primary">
+              portals saves your work at various time intervals. Restore previous edit states by{' '}
+              <span style={{ color: 'var(--color-brand-blue-1)' }}>clicking on a restore point</span>{' '}
+              below.
+            </Text>
+
+            <VersionList
+              entries={[
+                { id: 'v1', date: 'sep 30', time: '17:33', itemCount: 989 },
+                { id: 'v2', date: 'sep 30', time: '16:12', itemCount: 985 },
+                { id: 'v3', date: 'sep 30', time: '14:45', itemCount: 972 },
+                { id: 'v4', date: 'sep 29', time: '22:08', itemCount: 968 },
+                { id: 'v5', date: 'sep 29', time: '19:30', itemCount: 954 },
+                { id: 'v6', date: 'sep 29', time: '15:17', itemCount: 941 },
+                { id: 'v7', date: 'sep 28', time: '21:55', itemCount: 932 },
+                { id: 'v8', date: 'sep 28', time: '18:03', itemCount: 918 },
+                { id: 'v9', date: 'sep 28', time: '14:22', itemCount: 905 },
+                { id: 'v10', date: 'sep 27', time: '20:41', itemCount: 893 },
+                { id: 'v11', date: 'sep 27', time: '16:09', itemCount: 881 },
+              ]}
+              onRestore={(id) => console.log('restore', id)}
+            />
+          </Panel>
+        )}
+
+        {/* ── Building ────────────────────────────────── */}
+        {buildBarActive === 'build-settings' && (
+          <Panel>
+            <PanelHeader title="building" onClose={handlePanelClose} />
+
+            <ItemHeader title="all can build" />
+            <Toggle defaultChecked={false} />
+
+            <ItemHeader title="hide user nametags" />
+            <Toggle defaultChecked />
+
+            <ItemHeader
+              title="live tasks edit"
+              description="disables proximity based audio to allows all voices to be heard in space"
+              variant="double"
+            />
+            <Toggle defaultChecked />
+
+            <ItemHeader
+              title="delete all space contents"
+              description="temporarily or permanently mute all guests"
+              variant="double"
+              hasHelpIcon
+            />
+            <Button variant="primary-blue" style={{ backgroundColor: '#F05C59' }}>delete</Button>
+          </Panel>
+        )}
+
+        {/* ── Voice & Comms ───────────────────────────── */}
+        {buildBarActive === 'audio' && (
+          <Panel>
+            <PanelHeader title="voice & comms" onClose={handlePanelClose} />
+
+            <ItemHeader title="disable all speaking in space" />
+            <Toggle defaultChecked={false} />
+
+            <ItemHeader
+              title="global speaking"
+              description="disables proximity based audio to allows all voices to be heard in space"
+              variant="double"
+              hasHelpIcon
+            />
+            <Toggle defaultChecked={false} />
+
+            <ItemHeader
+              title="mute all guests"
+              description="temporarily or permanently mute all guests"
+              variant="double"
+              hasHelpIcon
+            />
+            <Toggle defaultChecked={false} />
+          </Panel>
+        )}
+
+        {/* ── Users ─────────────────────────────────────── */}
+        {buildBarActive === 'users' && (
+          <Panel>
+            <PanelHeader title="users" onClose={handlePanelClose} />
+
+            <TabNav
+              items={[
+                { id: 'banned', label: 'banned' },
+                { id: 'muted', label: 'muted' },
+              ]}
+              activeId={usersTab}
+              onChange={setUsersTab}
+            />
+
+            <UserList
+              entries={[
+                { id: 'u1', name: 'jen' },
+                { id: 'u2', name: 'bus' },
+                { id: 'u3', name: 'nino' },
+                { id: 'u4', name: 'gomez' },
+                { id: 'u5', name: 'jan' },
+                { id: 'u6', name: 'hugh' },
+                { id: 'u7', name: 'hugh' },
+                { id: 'u8', name: 'tondo' },
+                { id: 'u9', name: 'beer' },
+                { id: 'u10', name: 'aloha' },
+                { id: 'u11', name: 'ghostcat' },
+                { id: 'u12', name: 'tondo' },
+                { id: 'u13', name: 'beer' },
+                { id: 'u14', name: 'aloha' },
+              ]}
+              onMore={(id) => console.log('more', id)}
+            />
+          </Panel>
+        )}
+
+        {/* ── Avatars ────────────────────────────────────── */}
+        {buildBarActive === 'avatar' && (
+          <Panel>
+            <PanelHeader title="avatars" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+
+            <ItemHeader title="enable custom avatars" />
+            <Toggle defaultChecked={false} />
+
+            <ItemHeader
+              title="item header"
+              description="select which avatars you want to enable and disable in this space"
+              variant="double"
+              hasHelpIcon
+            />
+            <GraphicSelectorGrid
+              items={[
+                { id: 'operators', icon: <PlaceholderIcon />, label: 'operators' },
+                { id: 'explorers', icon: <PlaceholderIcon />, label: 'explorers' },
+                { id: 'striders', icon: <PlaceholderIcon />, label: 'striders' },
+                { id: 'operators-2', icon: <PlaceholderIcon />, label: 'operators' },
+              ]}
+              selectedId={avatarSelection}
+              onChange={setAvatarSelection}
+            />
+
+            <ItemHeader
+              title="add custom avatar"
+              description="some text here"
+              variant="double"
+              hasHelpIcon
+            />
+            <Button variant="secondary-white">add</Button>
+          </Panel>
+        )}
+
+        {/* ── Atmospherics ──────────────────────────────── */}
+        {buildBarActive === 'atmospherics' && (
+          <Panel>
+            <PanelHeader title="atmospherics" onClose={handlePanelClose} />
+
+            <TabSwitcher
+              tabs={['day', 'night']}
+              activeTab={atmosTab}
+              onChange={setAtmosTab}
+            />
+
+            {/* ── Skybox ─────────────────────── */}
+            <Text variant="h2Divider" color="blue">skybox</Text>
+
+            <ItemHeader title="select a skybox style" />
+            <SkyboxSelector
+              options={[
+                { id: 'sky1', subtitle: '01', label: 'anime skies 1', thumbnail: 'https://images.unsplash.com/photo-1534088568595-a066f410bcda?w=160&h=160&fit=crop' },
+                { id: 'sky2', subtitle: '02', label: 'sunset glow', thumbnail: 'https://images.unsplash.com/photo-1495616811223-4d98c6e9c869?w=160&h=160&fit=crop' },
+                { id: 'sky3', subtitle: '03', label: 'overcast day', thumbnail: 'https://images.unsplash.com/photo-1536244636800-a3f74db0f3cf?w=160&h=160&fit=crop' },
+              ]}
+              activeIndex={skyboxIdx}
+              onChange={setSkyboxIdx}
+            />
+            <Button variant="secondary-white" size="micro">apply</Button>
+
+            <ItemHeader
+              title="item header"
+              description="max size 15mb"
+              variant="double"
+              hasHelpIcon
+            />
+            <Button variant="secondary-white" size="micro">upload</Button>
+
+            {/* ── Fog ────────────────────────── */}
+            <Text variant="h2Divider" color="blue">fog</Text>
+
+            <ItemHeader title="fog far distance" hasHelpIcon />
+            <Slider value={fogDistance} onChange={setFogDistance} min={0} max={100} />
+
+            <ItemHeader title="fog color" />
+            <ColorSwatchPicker
+              colors={['#B8C47A', '#8B8C72', '#A8B848', '#5EC4D4', '#8C9490']}
+              activeColor={fogColor}
+              onSelect={setFogColor}
+              onPickColor={() => console.log('open color picker')}
+            />
+
+            {/* ── Bloom ──────────────────────── */}
+            <Text variant="h2Divider" color="blue">bloom</Text>
+
+            <ItemHeader title="bloom intensity" hasHelpIcon />
+            <Slider value={bloomIntensity} onChange={setBloomIntensity} min={0} max={100} />
+
+            <ItemHeader title="bloom clamp" hasHelpIcon />
+            <Slider value={bloomClamp} onChange={setBloomClamp} min={0} max={100} />
+
+            <ItemHeader title="bloom diffusion" hasHelpIcon />
+            <Slider value={bloomDiffusion} onChange={setBloomDiffusion} min={0} max={100} />
+          </Panel>
+        )}
+
+        {/* ── Music ───────────────────────────────────────── */}
+        {buildBarActive === 'music' && (
+          <Panel>
+            <PanelHeader title="music" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+
+            <Text variant="p2Para" color="primary">
+              add ambient music to your space. Simple add music tracks below to create a soundtrack for your space. Use the left icon to shuffle and the context menu to remove tracks
+            </Text>
+
+            <TrackList
+              entries={tracks}
+              onMore={(id) => console.log('track more', id)}
+              onReorder={handleTrackReorder}
+            />
+
+            <Button variant="secondary-white">add track</Button>
+          </Panel>
+        )}
+
+        {/* ── Camera ──────────────────────────────────────── */}
+        {buildBarActive === 'camera' && (
+          <Panel>
+            <PanelHeader title="camera" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+
+            <Text variant="p2Para" color="primary">
+              set the tone of your game or experience with custom default camera views. Choose from one of our presets below or use our fine adjustment tool to create your own.
+            </Text>
+
+            <ItemHeader title="select a camera preset" hasHelpIcon />
+            <GraphicSelectorGrid
+              items={[
+                { id: 'isometric', icon: <PlaceholderIcon />, label: 'isometric' },
+                { id: 'platformer', icon: <PlaceholderIcon />, label: 'platformer' },
+                { id: 'birds-eye', icon: <PlaceholderIcon />, label: 'birds eye' },
+                { id: 'first-person', icon: <PlaceholderIcon />, label: 'first person' },
+              ]}
+              selectedId={cameraPreset}
+              onChange={setCameraPreset}
+            />
+
+            <ItemHeader
+              title="create custom view"
+              description="create your own default camera view"
+              variant="double"
+              hasHelpIcon
+            />
+            <Button variant="secondary-white">create</Button>
+          </Panel>
+        )}
+
+        {/* ── Movement ───────────────────────────────────── */}
+        {buildBarActive === 'movement' && (
+          <Panel>
+            <PanelHeader title="movement" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+
+            <Text variant="p2Para" color="primary">
+              set the tone of your game or experience with custom character movement profiles. Choose from one of our presets below or use our fine adjustment tool to create your own.
+            </Text>
+
+            <ItemHeader title="select a profile" hasHelpIcon />
+            <GraphicSelectorGrid
+              items={[
+                { id: 'default', icon: <PlaceholderIcon />, label: 'default' },
+                { id: 'anti-grav', icon: <PlaceholderIcon />, label: 'anti-grav' },
+                { id: 'super-speed', icon: <PlaceholderIcon />, label: 'super-speed' },
+                { id: 'climbing', icon: <PlaceholderIcon />, label: 'climbing' },
+              ]}
+              selectedId={movementProfile}
+              onChange={setMovementProfile}
+            />
+
+            <ItemHeader
+              title="create custom profile"
+              description="set up a custom movement profile to suit your experience"
+              variant="double"
+              hasHelpIcon
+            />
+            <Button variant="secondary-white">create</Button>
+          </Panel>
+        )}
+
+        {/* ── Debug ──────────────────────────────────────── */}
+        {buildBarActive === 'bugs' && (
+          <Panel>
+            <PanelHeader title="debug" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+
+            <TabSwitcher
+              tabs={['single', 'multi']}
+              activeTab={debugTab}
+              onChange={setDebugTab}
+            />
+
+            <Text variant="p2" color="muted">click on a task to debug</Text>
+
+            <TaskList
+              entries={[
+                { id: 't1', name: 'task name', status: 'error' },
+                { id: 't2', name: 'task name', status: 'error' },
+                { id: 't3', name: 'task name', status: 'error' },
+                { id: 't4', name: 'task name', status: 'error' },
+                { id: 't5', name: 'task name', status: 'error' },
+                { id: 't6', name: 'task name', status: 'error' },
+                { id: 't7', name: 'task name', status: 'warning' },
+                { id: 't8', name: 'task name', status: 'warning' },
+                { id: 't9', name: 'task name', status: 'success' },
+                { id: 't10', name: 'task name', status: 'success' },
+                { id: 't11', name: 'task name', status: 'success' },
+                { id: 't12', name: 'task name', status: 'success' },
+              ]}
+              onClick={(id) => console.log('debug', id)}
+            />
+          </Panel>
+        )}
+
+        {/* ── Portals Studio ─────────────────────────────── */}
+        {buildBarActive === 'studio' && (
+          <Panel>
+            <PanelHeader title="portals studio" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+
+            <VideoPlaceholder />
+
+            <Text variant="p2Para" color="muted">
+              portals studio allows you to create custom logic and tasks to create fully formed experiences. We need some text here and a video to show how this works
+            </Text>
+            <Button variant="secondary-white">read the docs</Button>
+
+            <Text variant="h2Divider" color="blue">ready to start?</Text>
+
+            <ItemHeader
+              title="add a singleplayer task"
+              description="you have 0 tasks?"
+              variant="double"
+            />
+            <Button variant="primary-blue">add a task</Button>
+          </Panel>
+        )}
+
       </div>
 
       {/* ── Static UI: Top Right ──────────────────────── */}

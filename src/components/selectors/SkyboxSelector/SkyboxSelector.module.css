@@ -1,0 +1,68 @@
+/* =============================================================
+ * SkyboxSelector — thumbnail + details + prev/next nav
+ * ============================================================= */
+
+.selector {
+  display: flex;
+  gap: var(--spacing-5, 16px);
+  align-items: center;
+}
+
+/* ── Thumbnail ───────────────────────────────────────────── */
+
+.thumbnail {
+  width: 80px;
+  height: 80px;
+  border-radius: var(--radius-md, 10px);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+/* ── Details column ──────────────────────────────────────── */
+
+.details {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.subtitle {
+  font-family: var(--font-family-primary);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  font-weight: var(--font-weight-regular, 400);
+  color: var(--semantic-text-muted);
+}
+
+.label {
+  font-family: var(--font-family-primary);
+  font-size: var(--typography-scale-p2-font-size, 16px);
+  font-weight: var(--font-weight-medium, 500);
+  color: var(--semantic-text-primary);
+}
+
+/* ── Prev / Next buttons ─────────────────────────────────── */
+
+.nav {
+  display: flex;
+  gap: var(--spacing-2, 6px);
+  margin-top: 4px;
+}
+
+.navBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-glass-raised);
+  color: var(--semantic-text-muted);
+  cursor: pointer;
+  transition: background var(--transition-normal), color var(--transition-normal);
+}
+
+.navBtn:hover {
+  background: var(--color-glass-raised-hover);
+  color: var(--semantic-text-primary);
+}

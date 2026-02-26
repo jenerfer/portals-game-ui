@@ -5,6 +5,7 @@ type TextVariant =
   | 'h1Xl'
   | 'h1'
   | 'h2'
+  | 'h2Divider'
   | 'p1'
   | 'p1Bold'
   | 'p1Para'
@@ -38,6 +39,7 @@ const defaultElementMap: Record<TextVariant, React.ElementType> = {
   h1Xl: 'h1',
   h1: 'h1',
   h2: 'h2',
+  h2Divider: 'h2',
   p1: 'p',
   p1Bold: 'p',
   p1Para: 'p',

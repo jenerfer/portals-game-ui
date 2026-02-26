@@ -36,6 +36,7 @@
   --color-named-portals-slate: #0F161B;
   --color-named-portals-light-slate2: #142228;
   --color-feedback-success: #18AD79;
+  --color-feedback-warning: #E5A63B;
   --color-feedback-error: #CB3B36;
   --semantic-text-primary: rgba(185, 219, 243, 0.95);
   --semantic-text-secondary: rgba(185, 219, 243, 0.70);
@@ -140,13 +141,13 @@
   --transition-normal: 0.2s ease;
   --transition-slow: 0.3s ease;
   --button-default-padding-x: 25px;
-  --button-default-padding-y: 20px;
+  --button-default-padding-y: 18px;
   --button-default-font-size: 16px;
   --button-default-line-height: 16px;
   --button-default-border-radius: 999px;
-  --button-micro-padding-x: 17px;
-  --button-micro-padding-y: 10px;
-  --button-micro-font-size: 16px;
-  --button-micro-line-height: 16px;
+  --button-micro-padding-x: 12px;
+  --button-micro-padding-y: 8px;
+  --button-micro-font-size: 14px;
+  --button-micro-line-height: 14px;
   --button-micro-border-radius: 999px;
 }

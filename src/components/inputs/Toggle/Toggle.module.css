@@ -41,9 +41,9 @@
   pointer-events: none;
 }
 
-/* Off thumb: left position, ice color */
+/* Off thumb: left position, subtle icon color */
 .off .thumb {
-  background-color: var(--color-ice-1);
+  background-color: var(--semantic-icon-subtle);
   transform: translateX(0);
 }
 
