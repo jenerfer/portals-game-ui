@@ -20,7 +20,7 @@
   padding: 15px;
 
   background: var(--color-glass-raised);
-  border: 2px solid transparent;
+  border: 1px solid var(--semantic-border-default);
   border-radius: var(--radius-xl, 15px);
 
   cursor: pointer;

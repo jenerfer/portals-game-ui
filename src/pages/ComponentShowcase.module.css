@@ -8,7 +8,6 @@
   height: 100vh;
   overflow: hidden;
   background-color: var(--color-ice-7);
-  background-image: url('/images/game-bg.jpg');
   background-size: cover;
   background-position: center;
 }
@@ -88,6 +87,49 @@
   top: var(--layout-safe-zone);
   right: var(--layout-safe-zone);
   z-index: 10;
+}
+
+/* ── Account Panel (right side, below TopRight) ───────────── */
+.accountPanelAnchor {
+  position: absolute;
+  top: calc(var(--layout-safe-zone) + 60px);
+  right: var(--layout-safe-zone);
+  z-index: 15;
+}
+
+/* ── Chat Panel (right side, between TopRight and PlayerCounter) ── */
+.chatPanelAnchor {
+  position: absolute;
+  top: calc(var(--layout-safe-zone) + 60px);
+  right: var(--layout-safe-zone);
+  bottom: calc(var(--layout-safe-zone) + 40px);
+  z-index: 12;
+}
+
+/* Full-height right-side gradient backdrop when chat is open (non-portable: Unity shader) */
+.chatGradientBackdrop {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  width: 50%;
+  pointer-events: none;
+  z-index: 5;
+  background: linear-gradient(
+    to right,
+    rgba(9, 16, 21, 0) 0%,
+    rgba(9, 16, 21, 0.45) 100%
+  );
+}
+
+/* ── Inventory Expanded (fills safe-zone, offset by BuildBar) ── */
+.inventoryExpandedAnchor {
+  position: absolute;
+  top: var(--layout-safe-zone);
+  left: calc(80px + var(--spacing-3, 10px));
+  right: var(--layout-safe-zone);
+  bottom: var(--layout-safe-zone);
+  z-index: 16;
 }
 
 /* ── Bottom Left (comms bar) ────────────────────────────── */

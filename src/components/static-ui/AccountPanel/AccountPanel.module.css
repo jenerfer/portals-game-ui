@@ -1,0 +1,130 @@
+/* =============================================================
+ * AccountPanel — right-anchored account/menu panel
+ * ============================================================= */
+
+/* ── Profile card ──────────────────────────────────────────── */
+
+.profileCard {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-5, 16px);
+  padding: var(--spacing-5, 16px);
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-xl, 20px);
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  border: 3px solid var(--semantic-border-default);
+  object-fit: cover;
+  flex-shrink: 0;
+}
+
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+/* ── Validation text ───────────────────────────────────────── */
+
+.validationText {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  letter-spacing: var(--typography-scale-p3-letter-spacing, 0.5px);
+  color: var(--color-feedback-error, #CB3B36);
+}
+
+/* ── Menu list ─────────────────────────────────────────────── */
+
+.menuList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+/* ── Menu row ──────────────────────────────────────────────── */
+
+.menuRow {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--spacing-4, 12px);
+  padding: 10px 14px;
+
+  background: transparent;
+  border: none;
+  border-radius: 15px;
+
+  cursor: pointer;
+  outline: none;
+  transition: background var(--transition-normal);
+}
+
+.menuRow:hover {
+  background: var(--color-glass-hover);
+}
+
+.menuRow:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ── Logout row — transparent default, glass-hover on hover ── */
+
+.divider {
+  height: 1px;
+  background: var(--semantic-border-default);
+  margin-top: var(--spacing-3, 10px);
+  margin-bottom: var(--spacing-3, 10px);
+}
+
+.logoutSeparator {}
+
+.menuRowIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  color: var(--semantic-icon-subtle);
+  flex-shrink: 0;
+  transition: color var(--transition-normal);
+}
+
+.menuRow:hover .menuRowIcon {
+  color: var(--semantic-icon-subtle-hover);
+}
+
+.menuRowLabel {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p2-font-size, 16px);
+  font-weight: var(--font-weight-medium, 500);
+  line-height: var(--typography-scale-p2-line-height, 16px);
+  letter-spacing: var(--typography-scale-p2-letter-spacing, 0.5px);
+  color: var(--semantic-text-muted);
+  transition: color var(--transition-normal);
+}
+
+.menuRow:hover .menuRowLabel {
+  color: var(--semantic-text-secondary);
+}
+
+.menuRowChevron {
+  display: flex;
+  align-items: center;
+  margin-left: auto;
+  color: var(--semantic-text-muted);
+}
+

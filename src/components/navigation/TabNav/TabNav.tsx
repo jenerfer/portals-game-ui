@@ -9,9 +9,11 @@ export interface TabNavProps {
   items: TabNavItem[];
   activeId: string;
   onChange: (id: string) => void;
+  /** Typography size for tab labels (default: 'h2') */
+  size?: 'h1' | 'h2';
 }
 
-export function TabNav({ items, activeId, onChange }: TabNavProps) {
+export function TabNav({ items, activeId, onChange, size = 'h2' }: TabNavProps) {
   return (
     <div className={styles.nav}>
       <div className={styles.tabs}>
@@ -19,7 +21,7 @@ export function TabNav({ items, activeId, onChange }: TabNavProps) {
           <button
             key={item.id}
             type="button"
-            className={`${styles.tab} ${item.id === activeId ? styles.active : ''}`}
+            className={`${styles.tab} ${size === 'h1' ? styles.sizeH1 : ''} ${item.id === activeId ? styles.active : ''}`}
             onClick={() => onChange(item.id)}
           >
             {item.label}

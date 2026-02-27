@@ -117,6 +117,5 @@
   transition: opacity var(--transition-fast);
 }
 
-.iconButton:hover .tooltip {
-  opacity: 1;
-}
+/* Tooltip disabled — keeping markup for future use */
+/* .iconButton:hover .tooltip { opacity: 1; } */

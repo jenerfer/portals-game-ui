@@ -6,6 +6,7 @@
   height: 46px;
   flex-shrink: 0;
   background: var(--color-glass-raised);
+  border: 1px solid var(--semantic-border-default);
   border-radius: var(--radius-pill);
   padding: 3px;
   box-sizing: border-box;

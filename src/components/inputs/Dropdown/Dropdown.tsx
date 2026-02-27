@@ -1,10 +1,13 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import type { ReactNode } from 'react';
 import { useControllable } from '@/hooks/useControllable';
 import styles from './Dropdown.module.css';
 
 export interface DropdownOption {
   value: string;
   label: string;
+  /** Optional icon rendered left of the label */
+  icon?: ReactNode;
 }
 
 export interface DropdownProps {
@@ -87,8 +90,11 @@ export function Dropdown({
         aria-haspopup="listbox"
         aria-expanded={isOpen}
       >
-        <span className={selectedOption ? styles.value : styles.placeholder}>
-          {selectedOption ? selectedOption.label : placeholder}
+        <span className={styles.triggerContent}>
+          {selectedOption?.icon && <span className={styles.optionIcon}>{selectedOption.icon}</span>}
+          <span className={selectedOption ? styles.value : styles.placeholder}>
+            {selectedOption ? selectedOption.label : placeholder}
+          </span>
         </span>
         <span className={styles.chevron} aria-hidden="true" />
       </button>
@@ -103,6 +109,7 @@ export function Dropdown({
               className={`${styles.option} ${option.value === selected ? styles.selected : ''}`}
               onClick={() => handleSelect(option.value)}
             >
+              {option.icon && <span className={styles.optionIcon}>{option.icon}</span>}
               {option.label}
             </li>
           ))}

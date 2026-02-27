@@ -1,4 +1,12 @@
-import { useState, useCallback, useEffect } from 'react';
+import { useState, useCallback, useEffect, useMemo } from 'react';
+
+/* ── Random background image (picked once per mount) ───── */
+const BG_IMAGES = [
+  '/images/bg-1.jpg',
+  '/images/bg-2.jpg',
+  '/images/bg-3.jpg',
+  '/images/bg-4.jpg',
+];
 
 // Layout
 import { Panel } from '@/components/layout/Panel';
@@ -39,6 +47,9 @@ import { TrackList } from '@/components/data/TrackList';
 import { CommsBar } from '@/components/static-ui/CommsBar';
 import { PlayerCounter } from '@/components/static-ui/PlayerCounter';
 import { TopRight } from '@/components/static-ui/TopRight';
+import { AccountPanel } from '@/components/static-ui/AccountPanel';
+import { ChatPanel } from '@/components/static-ui/ChatPanel';
+import { InventoryPanel } from '@/components/static-ui/InventoryPanel';
 // Icons
 import { MicIcon, ChatIcon } from '@/icons';
 import { WrenchIcon } from '@/icons/WrenchIcon';
@@ -116,6 +127,12 @@ export default function ComponentShowcase() {
   // Debug panel
   const [debugTab, setDebugTab] = useState(1); // 0=day, 1=night
 
+  // Chat panel
+  const [chatTab, setChatTab] = useState('global');
+
+  // Inventory panel
+  const [inventoryExpanded, setInventoryExpanded] = useState(false);
+
   // Panel close animation
   const [closingPanel, setClosingPanel] = useState(false);
 
@@ -168,12 +185,49 @@ export default function ComponentShowcase() {
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
+      // Skip if user is typing in an input / textarea
+      const tag = (e.target as HTMLElement)?.tagName;
+      if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+
       if (e.key === 'n' || e.key === 'N') {
         setShowNotification((prev) => {
           if (!prev) return true;
           // already showing — cycle to next
           setNotificationIdx((i) => (i + 1) % notifications.length);
           return prev;
+        });
+      }
+
+      if (e.key === 'c' || e.key === 'C') {
+        setActiveComms((prev) => {
+          const next = new Set(prev);
+          if (next.has('chat')) next.delete('chat'); else next.add('chat');
+          return next;
+        });
+      }
+
+      if (e.key === 'i' || e.key === 'I') {
+        setBuildBarActive((prev) => {
+          if (prev === 'inventory') {
+            // Closing inventory — also hide the build bar
+            setActiveTopRight((p) => {
+              const next = new Set(p);
+              next.delete('build-tools');
+              return next;
+            });
+            return '';
+          }
+          // Opening inventory — ensure build bar is visible
+          setActiveTopRight((p) => new Set(p).add('build-tools'));
+          return 'inventory';
+        });
+      }
+
+      if (e.key === 'b' || e.key === 'B') {
+        setActiveTopRight((prev) => {
+          const next = new Set(prev);
+          if (next.has('build-tools')) next.delete('build-tools'); else next.add('build-tools');
+          return next;
         });
       }
     };
@@ -183,8 +237,14 @@ export default function ComponentShowcase() {
 
   const buildBarVisible = activeTopRight.has('build-tools');
 
+  // Pick a random background image once per mount
+  const bgImage = useMemo(
+    () => BG_IMAGES[Math.floor(Math.random() * BG_IMAGES.length)],
+    [],
+  );
+
   return (
-    <div className={styles.viewport}>
+    <div className={styles.viewport} style={{ backgroundImage: `url('${bgImage}')` }}>
       {/* ── BuildBar (left edge) ─────────────────────── */}
       <div className={`${styles.buildBarAnchor} ${!buildBarVisible ? styles.hidden : ''}`}>
         <BuildBar
@@ -233,11 +293,18 @@ export default function ComponentShowcase() {
         )}
 
         {/* ── Inventory ──────────────────────────────────── */}
-        {buildBarActive === 'inventory' && (
-          <Panel>
-            <PanelHeader title="inventory" onClose={handlePanelClose} />
-            <Text variant="p2Para" color="muted">next-gen inventory coming soon!</Text>
-          </Panel>
+        {buildBarActive === 'inventory' && !inventoryExpanded && (
+          <InventoryPanel
+            onExpand={() => {
+              setInventoryExpanded(true);
+              setActiveTopRight((prev) => {
+                const next = new Set(prev);
+                next.delete('menu');
+                return next;
+              });
+            }}
+            onClose={handlePanelClose}
+          />
         )}
 
         {/* ── Versions ────────────────────────────────── */}
@@ -440,7 +507,6 @@ export default function ComponentShowcase() {
               colors={['#B8C47A', '#8B8C72', '#A8B848', '#5EC4D4', '#8C9490']}
               activeColor={fogColor}
               onSelect={setFogColor}
-              onPickColor={() => console.log('open color picker')}
             />
 
             {/* ── Bloom ──────────────────────── */}
@@ -607,6 +673,43 @@ export default function ComponentShowcase() {
           })}
         />
       </div>
+
+      {/* ── Account Panel (right side, under TopRight) ── */}
+      {activeTopRight.has('menu') && (
+        <div className={styles.accountPanelAnchor}>
+          <AccountPanel
+            onClose={() => setActiveTopRight((prev) => {
+              const next = new Set(prev);
+              next.delete('menu');
+              return next;
+            })}
+          />
+        </div>
+      )}
+
+      {/* ── Chat Panel (right side) ─────────────────────── */}
+      {activeComms.has('chat') && (
+        <>
+          <div className={styles.chatGradientBackdrop} />
+          <div className={styles.chatPanelAnchor}>
+            <ChatPanel activeTab={chatTab} onTabChange={setChatTab} />
+          </div>
+        </>
+      )}
+
+      {/* ── Inventory Expanded (full safe-zone overlay) ── */}
+      {buildBarActive === 'inventory' && inventoryExpanded && (
+        <div className={styles.inventoryExpandedAnchor}>
+          <InventoryPanel
+            expanded
+            onCollapse={() => setInventoryExpanded(false)}
+            onClose={() => {
+              setInventoryExpanded(false);
+              handlePanelClose();
+            }}
+          />
+        </div>
+      )}
 
       {/* ── Static UI: Bottom Left ────────────────────── */}
       <div className={styles.bottomLeftAnchor}>

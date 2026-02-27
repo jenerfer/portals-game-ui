@@ -27,7 +27,7 @@
   --color-glass-raised: rgba(12, 19, 23, 0.25);
   --color-glass-raised-hover: rgba(12, 19, 23, 0.35);
   --color-glass-raised-active: rgba(12, 19, 23, 0.50);
-  --color-glass-raised-active-dark: rgba(19, 28, 32, 0.90);
+  --color-glass-raised-active-dark: rgba(12, 19, 23, 0.75);
   --color-glass-hover: rgba(12, 19, 23, 0.10);
   --color-glass-bg-selected: rgba(12, 19, 23, 0.35);
   --color-named-portals-ice: #CDE1ED;
@@ -36,7 +36,6 @@
   --color-named-portals-slate: #0F161B;
   --color-named-portals-light-slate2: #142228;
   --color-feedback-success: #18AD79;
-  --color-feedback-warning: #FFB360;
   --color-feedback-error: #CB3B36;
   --semantic-text-primary: rgba(185, 219, 243, 0.95);
   --semantic-text-secondary: rgba(185, 219, 243, 0.70);
@@ -128,7 +127,7 @@
   --layout-panel-padding: 35px;
   --layout-content-width: 300px;
   --radius-sm: 8px;
-  --radius-md: 10px;
+  --radius-md: 15px;
   --radius-lg: 16px;
   --radius-xl: 15px;
   --radius-2xl: 30px;
@@ -141,13 +140,13 @@
   --transition-normal: 0.2s ease;
   --transition-slow: 0.3s ease;
   --button-default-padding-x: 25px;
-  --button-default-padding-y: 20px;
+  --button-default-padding-y: 17.5px;
   --button-default-font-size: 16px;
   --button-default-line-height: 16px;
   --button-default-border-radius: 999px;
   --button-micro-padding-x: 17px;
   --button-micro-padding-y: 10px;
-  --button-micro-font-size: 16px;
+  --button-micro-font-size: 14px;
   --button-micro-line-height: 16px;
   --button-micro-border-radius: 999px;
 }

@@ -9,7 +9,7 @@
   padding: var(--spacing-3, 10px);
   gap: var(--spacing-3, 10px);
 
-  background: var(--color-glass-base);
+  background: var(--color-glass-base-light);
   backdrop-filter: blur(var(--blur-standard, 20px));
   -webkit-backdrop-filter: blur(var(--blur-standard, 20px));
 

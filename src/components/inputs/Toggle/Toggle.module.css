@@ -25,11 +25,13 @@
 /* Off state */
 .track.off {
   background-color: var(--color-glass-raised);
+  border: 1px solid var(--semantic-border-default);
 }
 
 /* On state */
 .track.on {
   background-color: var(--color-glass-raised-active);
+  border: 1px solid var(--semantic-border-default);
 }
 
 .thumb {
