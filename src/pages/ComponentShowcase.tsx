@@ -25,6 +25,7 @@ import { ColorSwatchPicker } from '@/components/inputs/ColorSwatchPicker';
 
 // Selectors
 import { GraphicSelectorGrid } from '@/components/selectors/GraphicSelectorGrid';
+import { ImageGridSelector } from '@/components/selectors/ImageGridSelector';
 import { SkyboxSelector } from '@/components/selectors/SkyboxSelector';
 
 // Media
@@ -62,7 +63,15 @@ import { VersionIcon } from '@/icons/VersionIcon';
 import { AudioIcon } from '@/icons/AudioIcon';
 import { AvatarIcon } from '@/icons/AvatarIcon';
 import { MovementIcon } from '@/icons/MovementIcon';
+import { DefaultMovementIcon } from '@/icons/DefaultMovementIcon';
+import { AntiGravIcon } from '@/icons/AntiGravIcon';
+import { SuperSpeedIcon } from '@/icons/SuperSpeedIcon';
+import { ClimbingIcon } from '@/icons/ClimbingIcon';
 import { CameraIcon } from '@/icons/CameraIcon';
+import { IsometricIcon } from '@/icons/IsometricIcon';
+import { PlatformerIcon } from '@/icons/PlatformerIcon';
+import { BirdsEyeIcon } from '@/icons/BirdsEyeIcon';
+import { FirstPersonIcon } from '@/icons/FirstPersonIcon';
 import { MusicIcon } from '@/icons/MusicIcon';
 import { AtmosphericsIcon } from '@/icons/AtmosphericsIcon';
 import { StudioIcon } from '@/icons/StudioIcon';
@@ -70,16 +79,6 @@ import { BugsIcon } from '@/icons/BugsIcon';
 import { UsersIcon } from '@/icons/UsersIcon';
 
 import styles from './ComponentShowcase.module.css';
-
-/* ── Placeholder SVG Icons ──────────────────────────────── */
-
-function PlaceholderIcon({ size = 24 }: { size?: number }) {
-  return (
-    <svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="3" width="18" height="18" rx="2" />
-    </svg>
-  );
-}
 
 /* ── Component Showcase ─────────────────────────────────── */
 
@@ -91,7 +90,7 @@ export default function ComponentShowcase() {
   const [usersTab, setUsersTab] = useState('banned');
 
   // Avatar panel
-  const [avatarSelection, setAvatarSelection] = useState('explorers');
+  const [avatarSelection, setAvatarSelection] = useState<string[]>([]);
 
   // Camera panel
   const [cameraPreset, setCameraPreset] = useState('platformer');
@@ -459,14 +458,14 @@ export default function ComponentShowcase() {
               variant="double"
               hasHelpIcon
             />
-            <GraphicSelectorGrid
+            <ImageGridSelector
               items={[
-                { id: 'operators', icon: <PlaceholderIcon />, label: 'operators' },
-                { id: 'explorers', icon: <PlaceholderIcon />, label: 'explorers' },
-                { id: 'striders', icon: <PlaceholderIcon />, label: 'striders' },
-                { id: 'operators-2', icon: <PlaceholderIcon />, label: 'operators' },
+                { id: 'operators', icon: <img src="/images/operators.jpg" alt="operators" />, label: 'operators' },
+                { id: 'explorers', icon: <img src="/images/explorers.jpg" alt="explorers" />, label: 'explorers' },
+                { id: 'striders', icon: <img src="/images/striders.jpg" alt="striders" />, label: 'striders' },
+                { id: 'roundie', icon: <img src="/images/roundie.jpg" alt="roundie" />, label: 'roundie' },
               ]}
-              selectedId={avatarSelection}
+              selectedIds={avatarSelection}
               onChange={setAvatarSelection}
             />
 
@@ -572,10 +571,10 @@ export default function ComponentShowcase() {
             <ItemHeader title="select a camera preset" hasHelpIcon />
             <GraphicSelectorGrid
               items={[
-                { id: 'isometric', icon: <PlaceholderIcon />, label: 'isometric' },
-                { id: 'platformer', icon: <PlaceholderIcon />, label: 'platformer' },
-                { id: 'birds-eye', icon: <PlaceholderIcon />, label: 'birds eye' },
-                { id: 'first-person', icon: <PlaceholderIcon />, label: 'first person' },
+                { id: 'isometric', icon: <IsometricIcon size={41} />, label: 'isometric' },
+                { id: 'platformer', icon: <PlatformerIcon size={41} />, label: 'platformer' },
+                { id: 'birds-eye', icon: <BirdsEyeIcon size={41} />, label: 'birds eye' },
+                { id: 'first-person', icon: <FirstPersonIcon size={41} />, label: 'first person' },
               ]}
               selectedId={cameraPreset}
               onChange={setCameraPreset}
@@ -603,10 +602,10 @@ export default function ComponentShowcase() {
             <ItemHeader title="select a profile" hasHelpIcon />
             <GraphicSelectorGrid
               items={[
-                { id: 'default', icon: <PlaceholderIcon />, label: 'default' },
-                { id: 'anti-grav', icon: <PlaceholderIcon />, label: 'anti-grav' },
-                { id: 'super-speed', icon: <PlaceholderIcon />, label: 'super-speed' },
-                { id: 'climbing', icon: <PlaceholderIcon />, label: 'climbing' },
+                { id: 'default', icon: <DefaultMovementIcon size={41} />, label: 'default' },
+                { id: 'anti-grav', icon: <AntiGravIcon size={41} />, label: 'anti-grav' },
+                { id: 'super-speed', icon: <SuperSpeedIcon size={41} />, label: 'super-speed' },
+                { id: 'climbing', icon: <ClimbingIcon size={41} />, label: 'climbing' },
               ]}
               selectedId={movementProfile}
               onChange={setMovementProfile}
