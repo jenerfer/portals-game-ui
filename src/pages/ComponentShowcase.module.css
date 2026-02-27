@@ -81,26 +81,10 @@
   opacity: 0;
 }
 
-/* ── Top Right (settings/account icons) ─────────────────── */
-.topRightAnchor {
-  position: absolute;
-  top: var(--layout-safe-zone);
-  right: var(--layout-safe-zone);
-  z-index: 10;
-}
-
-/* ── Account Panel (right side, below TopRight) ───────────── */
-.accountPanelAnchor {
-  position: absolute;
-  top: calc(var(--layout-safe-zone) + 60px);
-  right: var(--layout-safe-zone);
-  z-index: 15;
-}
-
-/* ── Chat Panel (right side, between TopRight and PlayerCounter) ── */
+/* ── Chat Panel (right side) ──────────────────────────── */
 .chatPanelAnchor {
   position: absolute;
-  top: calc(var(--layout-safe-zone) + 60px);
+  top: var(--layout-safe-zone);
   right: var(--layout-safe-zone);
   bottom: calc(var(--layout-safe-zone) + 40px);
   z-index: 12;
@@ -120,6 +104,13 @@
     rgba(9, 16, 21, 0) 0%,
     rgba(9, 16, 21, 0.45) 100%
   );
+
+  animation: backdropFadeIn 0.5s ease;
+}
+
+@keyframes backdropFadeIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 /* ── Inventory Expanded (fills safe-zone, offset by BuildBar) ── */
@@ -132,12 +123,19 @@
   z-index: 16;
 }
 
-/* ── Bottom Left (comms bar) ────────────────────────────── */
+/* ── Bottom Left (menu bar + account panel) ────────────── */
 .bottomLeftAnchor {
   position: absolute;
   bottom: var(--layout-safe-zone);
   left: var(--layout-safe-zone);
-  z-index: 10;
+  z-index: 15;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+
+  transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
 /* ── Bottom Right (player counter) ──────────────────────── */
@@ -146,6 +144,29 @@
   bottom: var(--layout-safe-zone);
   right: var(--layout-safe-zone);
   z-index: 10;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+/* ── Hidden state (used when inventory expanded) ─────────── */
+.anchorHidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+/* ── Controls Panel (centered overlay) ───────────────────── */
+.controlsBackdrop {
+  position: absolute;
+  inset: 0;
+  z-index: 19;
+}
+
+.controlsPanelAnchor {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 20;
 }
 
 /* ── Notification (top centre) ────────────────────────────── */

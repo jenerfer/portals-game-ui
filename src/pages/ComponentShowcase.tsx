@@ -44,11 +44,12 @@ import { TaskList } from '@/components/data/TaskList';
 import { TrackList } from '@/components/data/TrackList';
 
 // Static UI
-import { CommsBar } from '@/components/static-ui/CommsBar';
+import { MenuBar } from '@/components/static-ui/MenuBar';
 import { PlayerCounter } from '@/components/static-ui/PlayerCounter';
-import { TopRight } from '@/components/static-ui/TopRight';
 import { AccountPanel } from '@/components/static-ui/AccountPanel';
 import { ChatPanel } from '@/components/static-ui/ChatPanel';
+import { ControlsPanel } from '@/components/static-ui/ControlsPanel';
+import { ContextMenu } from '@/components/static-ui/ContextMenu';
 import { InventoryPanel } from '@/components/static-ui/InventoryPanel';
 // Icons
 import { MicIcon, ChatIcon } from '@/icons';
@@ -133,6 +134,12 @@ export default function ComponentShowcase() {
   // Inventory panel
   const [inventoryExpanded, setInventoryExpanded] = useState(false);
 
+  // Controls panel
+  const [controlsOpen, setControlsOpen] = useState(false);
+
+  // Right-click context menu
+  const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+
   // Panel close animation
   const [closingPanel, setClosingPanel] = useState(false);
 
@@ -144,9 +151,16 @@ export default function ComponentShowcase() {
     }, 300); // matches CSS transition duration
   }, []);
 
-  // Static UI states
-  const [activeComms, setActiveComms] = useState<Set<string>>(new Set());
-  const [activeTopRight, setActiveTopRight] = useState<Set<string>>(new Set(['build-tools']));
+  // Unified menu bar state (burger, wrench, chat, mic)
+  const [activeMenu, setActiveMenu] = useState<Set<string>>(new Set(['build-tools', 'chat']));
+
+  // Mic device selector
+  const [selectedMic, setSelectedMic] = useState('macbook-mic');
+  const micDevices = [
+    { id: 'macbook-mic', label: 'macbook mic' },
+    { id: 'yeti', label: 'yeti' },
+    { id: 'iphone', label: 'iphone' },
+  ];
 
   const buildBarItems = [
     { id: 'general', icon: <GeneralIcon />, label: 'General' },
@@ -164,14 +178,11 @@ export default function ComponentShowcase() {
     { id: 'users', icon: <UsersIcon />, label: 'Users' },
   ];
 
-  const commsItems = [
-    { id: 'mic', icon: <MicIcon />, label: 'Microphone', active: activeComms.has('mic') },
-    { id: 'chat', icon: <ChatIcon />, label: 'Chat', active: activeComms.has('chat') },
-  ];
-
-  const topRightItems = [
-    { id: 'build-tools', icon: <WrenchIcon size={24} />, label: 'Build Tools', active: activeTopRight.has('build-tools') },
-    { id: 'menu', icon: <HamburgerIcon size={24} />, label: 'Menu', active: activeTopRight.has('menu') },
+  const menuItems = [
+    { id: 'menu', icon: <HamburgerIcon size={25} />, label: 'Menu', active: activeMenu.has('menu') },
+    { id: 'build-tools', icon: <WrenchIcon size={25} />, label: 'Build Tools', active: activeMenu.has('build-tools') },
+    { id: 'chat', icon: <ChatIcon size={25} />, label: 'Chat', active: activeMenu.has('chat') },
+    { id: 'mic', icon: <MicIcon size={25} />, label: 'Microphone', active: activeMenu.has('mic'), subMenu: micDevices, activeSubMenuId: selectedMic, onSubMenuSelect: setSelectedMic },
   ];
 
   // Notification cycling
@@ -199,7 +210,7 @@ export default function ComponentShowcase() {
       }
 
       if (e.key === 'c' || e.key === 'C') {
-        setActiveComms((prev) => {
+        setActiveMenu((prev) => {
           const next = new Set(prev);
           if (next.has('chat')) next.delete('chat'); else next.add('chat');
           return next;
@@ -210,7 +221,7 @@ export default function ComponentShowcase() {
         setBuildBarActive((prev) => {
           if (prev === 'inventory') {
             // Closing inventory — also hide the build bar
-            setActiveTopRight((p) => {
+            setActiveMenu((p) => {
               const next = new Set(p);
               next.delete('build-tools');
               return next;
@@ -218,13 +229,13 @@ export default function ComponentShowcase() {
             return '';
           }
           // Opening inventory — ensure build bar is visible
-          setActiveTopRight((p) => new Set(p).add('build-tools'));
+          setActiveMenu((p) => new Set(p).add('build-tools'));
           return 'inventory';
         });
       }
 
       if (e.key === 'b' || e.key === 'B') {
-        setActiveTopRight((prev) => {
+        setActiveMenu((prev) => {
           const next = new Set(prev);
           if (next.has('build-tools')) next.delete('build-tools'); else next.add('build-tools');
           return next;
@@ -235,7 +246,7 @@ export default function ComponentShowcase() {
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [notifications.length]);
 
-  const buildBarVisible = activeTopRight.has('build-tools');
+  const buildBarVisible = activeMenu.has('build-tools');
 
   // Pick a random background image once per mount
   const bgImage = useMemo(
@@ -244,7 +255,14 @@ export default function ComponentShowcase() {
   );
 
   return (
-    <div className={styles.viewport} style={{ backgroundImage: `url('${bgImage}')` }}>
+    <div
+      className={styles.viewport}
+      style={{ backgroundImage: `url('${bgImage}')` }}
+      onContextMenu={(e) => {
+        e.preventDefault();
+        setContextMenu({ x: e.clientX, y: e.clientY });
+      }}
+    >
       {/* ── BuildBar (left edge) ─────────────────────── */}
       <div className={`${styles.buildBarAnchor} ${!buildBarVisible ? styles.hidden : ''}`}>
         <BuildBar
@@ -297,7 +315,7 @@ export default function ComponentShowcase() {
           <InventoryPanel
             onExpand={() => {
               setInventoryExpanded(true);
-              setActiveTopRight((prev) => {
+              setActiveMenu((prev) => {
                 const next = new Set(prev);
                 next.delete('menu');
                 return next;
@@ -430,7 +448,7 @@ export default function ComponentShowcase() {
         {/* ── Avatars ────────────────────────────────────── */}
         {buildBarActive === 'avatar' && (
           <Panel>
-            <PanelHeader title="avatars" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+            <PanelHeader title="avatars" onClose={handlePanelClose} />
 
             <ItemHeader title="enable custom avatars" />
             <Toggle defaultChecked={false} />
@@ -526,7 +544,7 @@ export default function ComponentShowcase() {
         {/* ── Music ───────────────────────────────────────── */}
         {buildBarActive === 'music' && (
           <Panel>
-            <PanelHeader title="music" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+            <PanelHeader title="music" onClose={handlePanelClose} />
 
             <Text variant="p2Para" color="primary">
               add ambient music to your space. Simple add music tracks below to create a soundtrack for your space. Use the left icon to shuffle and the context menu to remove tracks
@@ -545,7 +563,7 @@ export default function ComponentShowcase() {
         {/* ── Camera ──────────────────────────────────────── */}
         {buildBarActive === 'camera' && (
           <Panel>
-            <PanelHeader title="camera" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+            <PanelHeader title="camera" onClose={handlePanelClose} />
 
             <Text variant="p2Para" color="primary">
               set the tone of your game or experience with custom default camera views. Choose from one of our presets below or use our fine adjustment tool to create your own.
@@ -576,7 +594,7 @@ export default function ComponentShowcase() {
         {/* ── Movement ───────────────────────────────────── */}
         {buildBarActive === 'movement' && (
           <Panel>
-            <PanelHeader title="movement" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+            <PanelHeader title="movement" onClose={handlePanelClose} />
 
             <Text variant="p2Para" color="primary">
               set the tone of your game or experience with custom character movement profiles. Choose from one of our presets below or use our fine adjustment tool to create your own.
@@ -607,7 +625,7 @@ export default function ComponentShowcase() {
         {/* ── Debug ──────────────────────────────────────── */}
         {buildBarActive === 'bugs' && (
           <Panel>
-            <PanelHeader title="debug" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+            <PanelHeader title="debug" onClose={handlePanelClose} />
 
             <TabSwitcher
               tabs={['single', 'multi']}
@@ -640,11 +658,11 @@ export default function ComponentShowcase() {
         {/* ── Portals Studio ─────────────────────────────── */}
         {buildBarActive === 'studio' && (
           <Panel>
-            <PanelHeader title="portals studio" hasBackIcon onBack={handlePanelClose} onClose={handlePanelClose} />
+            <PanelHeader title="portals studio" onClose={handlePanelClose} />
 
             <VideoPlaceholder />
 
-            <Text variant="p2Para" color="muted">
+            <Text variant="p2Para" color="primary">
               portals studio allows you to create custom logic and tasks to create fully formed experiences. We need some text here and a video to show how this works
             </Text>
             <Button variant="secondary-white">read the docs</Button>
@@ -662,33 +680,9 @@ export default function ComponentShowcase() {
 
       </div>
 
-      {/* ── Static UI: Top Right ──────────────────────── */}
-      <div className={styles.topRightAnchor}>
-        <TopRight
-          items={topRightItems}
-          onItemClick={(id) => setActiveTopRight((prev) => {
-            const next = new Set(prev);
-            if (next.has(id)) next.delete(id); else next.add(id);
-            return next;
-          })}
-        />
-      </div>
-
-      {/* ── Account Panel (right side, under TopRight) ── */}
-      {activeTopRight.has('menu') && (
-        <div className={styles.accountPanelAnchor}>
-          <AccountPanel
-            onClose={() => setActiveTopRight((prev) => {
-              const next = new Set(prev);
-              next.delete('menu');
-              return next;
-            })}
-          />
-        </div>
-      )}
 
       {/* ── Chat Panel (right side) ─────────────────────── */}
-      {activeComms.has('chat') && (
+      {activeMenu.has('chat') && (
         <>
           <div className={styles.chatGradientBackdrop} />
           <div className={styles.chatPanelAnchor}>
@@ -711,11 +705,28 @@ export default function ComponentShowcase() {
         </div>
       )}
 
-      {/* ── Static UI: Bottom Left ────────────────────── */}
-      <div className={styles.bottomLeftAnchor}>
-        <CommsBar
-          items={commsItems}
-          onItemClick={(id) => setActiveComms((prev) => {
+      {/* ── Static UI: Bottom Left (AccountPanel + MenuBar) ── */}
+      <div className={`${styles.bottomLeftAnchor} ${inventoryExpanded ? styles.anchorHidden : ''}`}>
+        {activeMenu.has('menu') && (
+          <AccountPanel
+            onClose={() => setActiveMenu((prev) => {
+              const next = new Set(prev);
+              next.delete('menu');
+              return next;
+            })}
+            onOpenControls={() => {
+              setControlsOpen(true);
+              setActiveMenu((prev) => {
+                const next = new Set(prev);
+                next.delete('menu');
+                return next;
+              });
+            }}
+          />
+        )}
+        <MenuBar
+          items={menuItems}
+          onItemClick={(id) => setActiveMenu((prev) => {
             const next = new Set(prev);
             if (next.has(id)) next.delete(id); else next.add(id);
             return next;
@@ -724,9 +735,29 @@ export default function ComponentShowcase() {
       </div>
 
       {/* ── Static UI: Bottom Right ───────────────────── */}
-      <div className={styles.bottomRightAnchor}>
+      <div className={`${styles.bottomRightAnchor} ${inventoryExpanded ? styles.anchorHidden : ''}`}>
         <PlayerCounter count={24} />
       </div>
+
+      {/* ── Controls Panel (centered overlay) ────────── */}
+      {controlsOpen && (
+        <>
+          <div className={styles.controlsBackdrop} onClick={() => setControlsOpen(false)} />
+          <div className={styles.controlsPanelAnchor}>
+            <ControlsPanel onClose={() => setControlsOpen(false)} />
+          </div>
+        </>
+      )}
+
+      {/* ── Right-click Context Menu ────────────────── */}
+      {contextMenu && (
+        <ContextMenu
+          x={contextMenu.x}
+          y={contextMenu.y}
+          onClose={() => setContextMenu(null)}
+          onAction={(action) => console.log('context-menu:', action)}
+        />
+      )}
 
       {/* ── Notification (top centre) ─────────────────── */}
       {showNotification && (

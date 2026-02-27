@@ -3,7 +3,7 @@ import { TabNav } from '@/components/navigation/TabNav';
 import { Text } from '@/components/primitives/Text';
 import { TextEntry } from '@/components/inputs/TextEntry';
 import { EmoteIcon } from '@/icons/EmoteIcon';
-import { USERNAME_COLORS, SEED_MESSAGES, getNextId } from './chatData';
+import { USERNAME_COLORS, SEED_MESSAGES, RANDOM_USERNAMES, RANDOM_MESSAGES, getNextId } from './chatData';
 import type { ChatMessage } from './chatData';
 import styles from './ChatPanel.module.css';
 
@@ -51,6 +51,22 @@ export function ChatPanel({
   useEffect(() => {
     bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages.length]);
+
+  // Simulated incoming messages every ~3s
+  useEffect(() => {
+    let count = 0;
+    const interval = setInterval(() => {
+      if (count >= 80) { clearInterval(interval); return; }
+      const username = RANDOM_USERNAMES[Math.floor(Math.random() * RANDOM_USERNAMES.length)];
+      const text = RANDOM_MESSAGES[Math.floor(Math.random() * RANDOM_MESSAGES.length)];
+      const colorIndex = Math.floor(Math.random() * USERNAME_COLORS.length);
+      const now = new Date();
+      const timestamp = `${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}`;
+      setMessages((prev) => [...prev, { id: getNextId(), username, text, timestamp, colorIndex }]);
+      count++;
+    }, 3000);
+    return () => clearInterval(interval);
+  }, []);
 
   // Click-outside to close emoji tray
   useEffect(() => {

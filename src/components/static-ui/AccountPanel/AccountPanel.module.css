@@ -1,6 +1,28 @@
 /* =============================================================
- * AccountPanel — right-anchored account/menu panel
+ * AccountPanel — account/menu panel with sliding sub-views
  * ============================================================= */
+
+/* ── Slider (page transitions) ─────────────────────────────── */
+
+.slider {
+  --layout-panel-width: 430px;
+  width: var(--layout-panel-width);
+  overflow: hidden;
+  border-radius: var(--radius-2xl, 30px);
+  transition: height 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sliderTrack {
+  display: flex;
+  align-items: flex-start;
+  gap: 2px;
+  transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.sliderPage {
+  min-width: 100%;
+  flex-shrink: 0;
+}
 
 /* ── Profile card ──────────────────────────────────────────── */
 
@@ -119,6 +141,16 @@
 
 .menuRow:hover .menuRowLabel {
   color: var(--semantic-text-secondary);
+}
+
+/* ── Active state (e.g. "copied" feedback) ────────────────── */
+
+.menuRowActive .menuRowIcon {
+  color: var(--semantic-icon-active);
+}
+
+.menuRowActive .menuRowLabel {
+  color: var(--semantic-text-primary);
 }
 
 .menuRowChevron {

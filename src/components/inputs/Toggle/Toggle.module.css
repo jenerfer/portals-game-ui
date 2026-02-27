@@ -30,8 +30,8 @@
 
 /* On state */
 .track.on {
-  background-color: var(--color-glass-raised-active);
-  border: 1px solid var(--semantic-border-default);
+  background-color: var(--semantic-icon-active);
+  border: 1px solid var(--semantic-icon-active);
 }
 
 .thumb {
@@ -49,8 +49,8 @@
   transform: translateX(0);
 }
 
-/* On thumb: right position, brand blue color */
+/* On thumb: right position, inverse (white) color */
 .on .thumb {
-  background-color: var(--color-brand-blue-1);
+  background-color: var(--semantic-icon-inverse);
   transform: translateX(calc(50px - 17.677px - 14px));
 }

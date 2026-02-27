@@ -2,9 +2,9 @@ import { useControllable } from '@/hooks/useControllable';
 import styles from './TabSwitcher.module.css';
 
 export interface TabSwitcherProps {
-  /** Tuple of two tab labels [left, right] */
-  tabs: [string, string];
-  /** Controlled active tab index (0 or 1) */
+  /** Array of tab labels */
+  tabs: string[];
+  /** Controlled active tab index */
   activeTab?: number;
   /** Initial active tab for uncontrolled usage */
   defaultActiveTab?: number;
@@ -24,7 +24,10 @@ export function TabSwitcher({
     <div className={styles.container} role="tablist">
       <span
         className={styles.indicator}
-        style={{ transform: `translateX(${active * 100}%)` }}
+        style={{
+          width: `calc(${100 / tabs.length}% - 3px)`,
+          transform: `translateX(${active * 100}%)`,
+        }}
         aria-hidden="true"
       />
       {tabs.map((label, index) => (

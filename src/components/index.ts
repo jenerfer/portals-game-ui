@@ -64,11 +64,10 @@ export type { ClickThruPanelProps } from './navigation/ClickThruPanel';
 export { BuildBar } from './navigation/BuildBar';
 
 // Static UI
-export { CommsBar } from './static-ui/CommsBar';
+export { MenuBar } from './static-ui/MenuBar';
+export type { MenuBarProps, MenuBarItem } from './static-ui/MenuBar';
 
 export { PlayerCounter } from './static-ui/PlayerCounter';
 export type { PlayerCounterProps } from './static-ui/PlayerCounter';
-
-export { TopRight } from './static-ui/TopRight';
 
 export { AccountEditMode } from './static-ui/AccountEditMode';

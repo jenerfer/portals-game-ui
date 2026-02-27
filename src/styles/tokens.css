@@ -27,7 +27,7 @@
   --color-glass-raised: rgba(12, 19, 23, 0.25);
   --color-glass-raised-hover: rgba(12, 19, 23, 0.35);
   --color-glass-raised-active: rgba(12, 19, 23, 0.50);
-  --color-glass-raised-active-dark: rgba(12, 19, 23, 0.75);
+  --color-glass-raised-active-dark: rgba(19, 28, 32, 0.90);
   --color-glass-hover: rgba(12, 19, 23, 0.10);
   --color-glass-bg-selected: rgba(12, 19, 23, 0.35);
   --color-named-portals-ice: #CDE1ED;
@@ -121,7 +121,8 @@
   --spacing-9: 30px;
   --spacing-10: 35px;
   --spacing-11: 40px;
-  --spacing-12: 60px;
+  --spacing-12: 45px;
+  --spacing-13: 60px;
   --layout-safe-zone: 40px;
   --layout-panel-width: 370px;
   --layout-panel-padding: 35px;

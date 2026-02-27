@@ -19,7 +19,6 @@ export function PlayerCounter({ count, maxCount, onClick }: PlayerCounterProps) 
       onClick={onClick}
       aria-label={`${count} players online${maxCount != null ? ` of ${maxCount}` : ''}`}
     >
-      <span className={styles.dot} aria-hidden="true" />
       <span className={styles.count}>{label}</span>
     </button>
   );

@@ -1,0 +1,267 @@
+/* ------------------------------------------------------------------ */
+/* MenuBar — horizontal pill bar for menu / build / chat / mic         */
+/* ------------------------------------------------------------------ */
+
+.bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  height: 60px;
+  padding: 10px;
+  gap: 10px;
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-light, 6.5px));
+  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Item wrapper — positioning context for caret + menu                 */
+/* ------------------------------------------------------------------ */
+
+.itemWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon button                                                         */
+/* ------------------------------------------------------------------ */
+
+.iconButton {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+  flex-shrink: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+
+  cursor: pointer;
+  outline: none;
+  transition: background-color var(--transition-normal);
+}
+
+.iconButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon                                                                */
+/* ------------------------------------------------------------------ */
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 25px;
+  height: 25px;
+  color: var(--semantic-icon-default);
+  transition: color var(--transition-normal);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hover state — circle (glass-base-light), icon stays default         */
+/* ------------------------------------------------------------------ */
+
+.iconButton:not(.active):hover {
+  background: var(--color-glass-base-light);
+}
+
+.iconButton:not(.active):hover .icon {
+  color: var(--semantic-icon-default);
+}
+
+/* ------------------------------------------------------------------ */
+/* Active state — circle (glass-base) + blue icon, no hover change     */
+/* ------------------------------------------------------------------ */
+
+.active {
+  background: var(--color-glass-base);
+}
+
+.active .icon {
+  color: var(--semantic-icon-active);
+}
+
+/* ------------------------------------------------------------------ */
+/* Badge — notification count circle                                   */
+/* ------------------------------------------------------------------ */
+
+.badge {
+  position: absolute;
+  top: 2px;
+  right: 2px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 4px;
+
+  background-color: var(--color-feedback-success);
+  border-radius: var(--radius-pill, 999px);
+
+  font-family: var(--typography-font-family-body);
+  font-size: 10px;
+  font-weight: 900;
+  line-height: 1;
+  color: #ffffff;
+
+  pointer-events: none;
+}
+
+/* ------------------------------------------------------------------ */
+/* Caret — small chevron above button, shown after hover delay         */
+/* ------------------------------------------------------------------ */
+
+.caret {
+  position: absolute;
+  top: -38px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 29px;
+  height: 24px;
+  padding: 0;
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-light, 6.5px));
+  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-sm, 8px);
+  color: var(--semantic-icon-default);
+  cursor: pointer;
+  outline: none;
+
+  animation: caretEnter 0.15s ease-out;
+}
+
+.caret:hover {
+  color: var(--semantic-text-primary);
+  background: var(--color-glass-base);
+}
+
+@keyframes caretEnter {
+  from { opacity: 0; transform: translateX(-50%) translateY(3px); }
+  to   { opacity: 1; transform: translateX(-50%) translateY(0); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Device menu — floating panel above the button                       */
+/* ------------------------------------------------------------------ */
+
+.deviceMenu {
+  position: absolute;
+  bottom: calc(100% + 44px);
+  left: 0;
+  min-width: 220px;
+  z-index: 100;
+
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 8px;
+
+  background: var(--color-glass-base);
+  backdrop-filter: blur(var(--blur-light, 6.5px));
+  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-md, 15px);
+
+  animation: menuEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuEnter {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ------------------------------------------------------------------ */
+/* Device row                                                          */
+/* ------------------------------------------------------------------ */
+
+.deviceRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 8px;
+  width: 100%;
+
+  background: none;
+  border: none;
+  border-radius: var(--radius-sm, 10px);
+  cursor: pointer;
+  outline: none;
+
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+.deviceRow:hover {
+  background: var(--color-glass-hover, rgba(12, 19, 23, 0.1));
+}
+
+.deviceRow:hover .deviceIcon {
+  color: var(--semantic-icon-default-hover);
+}
+
+.deviceRow:hover .deviceLabel {
+  color: var(--semantic-text-secondary);
+}
+
+/* ── Device icon ──────────────────────────────────────── */
+
+.deviceIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 23px;
+  height: 23px;
+  flex-shrink: 0;
+  color: var(--semantic-icon-subtle);
+  transition: color var(--transition-normal);
+}
+
+/* ── Device label ─────────────────────────────────────── */
+
+.deviceLabel {
+  font-family: var(--typography-font-family-body);
+  font-weight: var(--typography-scale-p3-font-weight, 300);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  letter-spacing: var(--typography-scale-p3-letter-spacing, 1px);
+  color: var(--semantic-text-disabled);
+  white-space: nowrap;
+  transition: color var(--transition-normal);
+}
+
+/* ── Active device row ────────────────────────────────── */
+
+.deviceRowActive {
+  background: var(--color-glass-hover, rgba(12, 19, 23, 0.1));
+}
+
+.deviceRowActive .deviceIcon,
+.deviceRowActive:hover .deviceIcon {
+  color: var(--semantic-icon-active);
+}
+
+.deviceRowActive .deviceLabel,
+.deviceRowActive:hover .deviceLabel {
+  color: var(--semantic-text-primary);
+}

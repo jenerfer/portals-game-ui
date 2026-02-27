@@ -1,0 +1,97 @@
+/* =============================================================
+ * ContextMenu — right-click context menu
+ * ============================================================= */
+
+/* ── Invisible backdrop (catches clicks outside) ─────────── */
+.backdrop {
+  position: fixed;
+  inset: 0;
+  z-index: 49;
+  background: transparent;
+}
+
+/* ── Menu container ──────────────────────────────────────── */
+.menu {
+  position: fixed;
+  z-index: 50;
+  min-width: 220px;
+  padding: 10px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  background: var(--color-glass-base);
+  backdrop-filter: blur(var(--blur-standard, 24px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 24px));
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-2xl, 30px);
+
+  animation: menuEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@keyframes menuEnter {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ── Menu row ────────────────────────────────────────────── */
+.menuRow {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  width: 100%;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+
+  transition: background var(--transition-normal), border-radius var(--transition-normal);
+}
+
+.menuRow:hover {
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-lg, 20px);
+}
+
+/* ── Icon ────────────────────────────────────────────────── */
+.menuRowIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--semantic-icon-subtle);
+  transition: color var(--transition-normal);
+}
+
+.menuRow:hover .menuRowIcon {
+  color: var(--semantic-icon-subtle-hover);
+}
+
+/* ── Label ───────────────────────────────────────────────── */
+.menuRowLabel {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  font-weight: var(--typography-scale-p3-font-weight, 300);
+  letter-spacing: var(--typography-scale-p3-letter-spacing, 1px);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  color: var(--semantic-text-secondary);
+  white-space: nowrap;
+  transition: color var(--transition-normal);
+}
+
+.menuRow:hover .menuRowLabel {
+  color: var(--semantic-text-primary);
+}
