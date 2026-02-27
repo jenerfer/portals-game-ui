@@ -7,7 +7,7 @@
   align-items: center;
   gap: 19px;
   padding: 12px 13px;
-  background: var(--color-glass-raised-active);
+  background: var(--color-glass-base);
   backdrop-filter: blur(40px);
   -webkit-backdrop-filter: blur(40px);
   border-radius: 999px;
