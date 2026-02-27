@@ -36,7 +36,7 @@ function renderKey(key: string, index: number) {
   }
 }
 
-function ShortcutGrid({ shortcuts, separator }: { shortcuts: ShortcutEntry[]; separator?: string }) {
+function ShortcutGrid({ shortcuts }: { shortcuts: ShortcutEntry[] }) {
   return (
     <div className={styles.grid}>
       {shortcuts.map((s, i) => (
