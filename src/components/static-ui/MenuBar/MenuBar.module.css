@@ -177,8 +177,8 @@
   padding: 8px;
 
   background: var(--color-glass-base);
-  backdrop-filter: blur(var(--blur-light, 6.5px));
-  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+  backdrop-filter: blur(var(--blur-standard, 24px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 24px));
   border: 1px solid var(--semantic-border-default);
   border-radius: var(--radius-md, 15px);
 
