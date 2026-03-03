@@ -1,4 +1,5 @@
 import { useState, useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react';
+import { useSound } from '../audio';
 
 /* ── Random background image (picked once per mount) ───── */
 const BG_IMAGES = [
@@ -192,6 +193,24 @@ export default function ComponentShowcase() {
   // Unified menu bar state (burger, wrench, chat, mic)
   const [activeMenu, setActiveMenu] = useState<Set<string>>(new Set(['build-tools', 'chat']));
 
+  // Panel open/close sounds
+  const { play } = useSound();
+  const prevMenuRef = useRef(activeMenu);
+
+  useEffect(() => {
+    const prev = prevMenuRef.current;
+    const added = [...activeMenu].filter((id) => !prev.has(id));
+    const removed = [...prev].filter((id) => !activeMenu.has(id));
+
+    if (added.includes('mic')) play('mic-on');
+    else if (added.length) play('panel-open');
+
+    if (removed.includes('mic')) play('mic-off');
+    else if (removed.length) play('panel-close');
+
+    prevMenuRef.current = activeMenu;
+  }, [activeMenu]);
+
   // Mic device selector
   const [selectedMic, setSelectedMic] = useState('macbook-mic');
   const micDevices = [
@@ -307,7 +326,7 @@ export default function ComponentShowcase() {
         <BuildBar
           items={buildBarItems}
           activeId={buildBarActive}
-          onChange={setBuildBarActive}
+          onChange={(id) => { play('build-select'); setBuildBarActive(id); }}
         />
       </div>
 

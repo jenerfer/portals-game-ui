@@ -1,4 +1,5 @@
 import { useControllable } from '@/hooks/useControllable';
+import { useSound } from '../../../audio';
 import styles from './Toggle.module.css';
 
 export interface ToggleProps {
@@ -23,9 +24,11 @@ export function Toggle({
     defaultChecked,
     onChange,
   );
+  const { play } = useSound();
 
   const handleClick = () => {
     if (disabled) return;
+    play(isChecked ? 'toggle-off' : 'toggle-on');
     setIsChecked(!isChecked);
   };
 

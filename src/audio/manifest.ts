@@ -31,6 +31,9 @@ export const soundManifest = {
   'button-click':  { src: '/sounds/button-click.mp3',  category: 'ui', volume: 0.4 },
   'toggle-on':     { src: '/sounds/toggle-on.mp3',     category: 'ui', volume: 0.5 },
   'toggle-off':    { src: '/sounds/toggle-off.mp3',    category: 'ui', volume: 0.5 },
+  'build-select':  { src: '/sounds/build-select.mp3',  category: 'ui', volume: 0.5 },
+  'mic-on':        { src: '/sounds/mic-on.mp3',        category: 'ui', volume: 0.6 },
+  'mic-off':       { src: '/sounds/mic-off.mp3',       category: 'ui', volume: 0.6 },
 
   /* ── Feedback ────────────────────────────────────────── */
   'notification-in':    { src: '/sounds/notification-in.mp3',    category: 'feedback', volume: 0.7 },
