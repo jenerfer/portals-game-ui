@@ -37,12 +37,14 @@
   --color-named-portals-light-slate2: #142228;
   --color-feedback-success: #18AD79;
   --color-feedback-error: #CB3B36;
+  --color-feedback-error-light: #FF806D;
   --semantic-text-primary: rgba(185, 219, 243, 0.95);
   --semantic-text-secondary: rgba(185, 219, 243, 0.70);
   --semantic-text-muted: rgba(185, 219, 243, 0.50);
   --semantic-text-disabled: rgba(185, 219, 243, 0.30);
   --semantic-text-blue: #4BB1FA;
   --semantic-text-inverse: #0C1317;
+  --semantic-text-error: rgba(255, 128, 109, 0.95);
   --semantic-border-default: rgba(185, 219, 243, 0.10);
   --semantic-border-focus: rgba(185, 219, 243, 0.30);
   --semantic-border-selected: #4BB1FA;

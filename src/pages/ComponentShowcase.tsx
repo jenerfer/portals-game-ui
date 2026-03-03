@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef, type ReactNode } from 'react';
 
 /* ── Random background image (picked once per mount) ───── */
 const BG_IMAGES = [
@@ -82,6 +82,7 @@ import { GrabIcon } from '@/icons/GrabIcon';
 import { MoveIcon } from '@/icons/MoveIcon';
 import { RotateIcon } from '@/icons/RotateIcon';
 import { ScaleIcon } from '@/icons/ScaleIcon';
+import { DisconnectIcon } from '@/icons/DisconnectIcon';
 
 import styles from './ComponentShowcase.module.css';
 
@@ -223,10 +224,15 @@ export default function ComponentShowcase() {
   ];
 
   // Notification cycling
-  const notifications = [
+  type NotificationItem =
+    | { variant?: 'default'; avatarSrc: string; username: string; message: string; actionLabel: string }
+    | { variant: 'error'; icon: ReactNode; message: string; actionLabel: string };
+
+  const notifications: NotificationItem[] = [
     { avatarSrc: '/images/bussy-pfp.png', username: '@Bussy', message: 'wants to be your friend', actionLabel: 'respond' },
     { avatarSrc: '/images/gomez-pfp.png', username: 'Gomez', message: 'is hosting a portals event', actionLabel: 'join now' },
     { avatarSrc: '/images/butterscotch-pfp.png', username: 'butterscotch', message: 'sent you a message', actionLabel: 'reply' },
+    { variant: 'error', icon: <DisconnectIcon size={40} />, message: 'server not responding', actionLabel: 'help' },
   ];
   const [notificationIdx, setNotificationIdx] = useState(0);
   const [showNotification, setShowNotification] = useState(false);
@@ -808,10 +814,7 @@ export default function ComponentShowcase() {
         <div className={styles.notificationAnchor}>
           <GameNotification
             key={notificationIdx}
-            avatarSrc={notifications[notificationIdx].avatarSrc}
-            username={notifications[notificationIdx].username}
-            message={notifications[notificationIdx].message}
-            actionLabel={notifications[notificationIdx].actionLabel}
+            {...notifications[notificationIdx]}
             onAction={() => console.log('action', notifications[notificationIdx].actionLabel)}
             onDismiss={() => {
               setShowNotification(false);

@@ -17,3 +17,4 @@ export { BugsIcon } from './BugsIcon';
 export { UsersIcon } from './UsersIcon';
 export { WrenchIcon } from './WrenchIcon';
 export { HamburgerIcon } from './HamburgerIcon';
+export { DisconnectIcon } from './DisconnectIcon';
