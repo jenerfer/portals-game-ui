@@ -1,0 +1,82 @@
+/* ------------------------------------------------------------------ */
+/* AdvancedBuildBar — horizontal tool bar (grab / move / rotate / scale) */
+/* ------------------------------------------------------------------ */
+
+.bar {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding: 10px;
+  gap: 10px;
+
+  background: var(--color-glass-base-light);
+  backdrop-filter: blur(var(--blur-light, 6.5px));
+  -webkit-backdrop-filter: blur(var(--blur-light, 6.5px));
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+}
+
+/* ------------------------------------------------------------------ */
+/* Tool button                                                         */
+/* ------------------------------------------------------------------ */
+
+.toolButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  flex-shrink: 0;
+
+  background: transparent;
+  border: none;
+  border-radius: var(--radius-pill, 999px);
+
+  cursor: pointer;
+  outline: none;
+  transition:
+    background-color var(--transition-normal),
+    color var(--transition-normal);
+}
+
+.toolButton:focus-visible {
+  box-shadow: 0 0 0 2px var(--semantic-border-selected);
+}
+
+/* ------------------------------------------------------------------ */
+/* Icon                                                                */
+/* ------------------------------------------------------------------ */
+
+.icon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  color: var(--semantic-icon-default);
+  transition: color var(--transition-normal);
+}
+
+/* ------------------------------------------------------------------ */
+/* Hover state — glass-hover bg, icon brightens (non-active only)      */
+/* ------------------------------------------------------------------ */
+
+.toolButton:not(.active):hover {
+  background: var(--color-glass-hover);
+}
+
+.toolButton:not(.active):hover .icon {
+  color: var(--semantic-icon-default-hover);
+}
+
+/* ------------------------------------------------------------------ */
+/* Active state — blue pill, inverse icon, no hover effect             */
+/* ------------------------------------------------------------------ */
+
+.active {
+  background: var(--color-brand-blue-1);
+}
+
+.active .icon {
+  color: var(--semantic-icon-inverse);
+}

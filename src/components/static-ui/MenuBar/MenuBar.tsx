@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { createPortal } from 'react-dom';
 import { MicIcon } from '@/icons/MicIcon';
 import { ChevronUpIcon } from '@/icons/ChevronUpIcon';
 import styles from './MenuBar.module.css';
@@ -32,16 +33,23 @@ export interface MenuBarProps {
 export function MenuBar({ items, onItemClick }: MenuBarProps) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
   const [openMenuId, setOpenMenuId] = useState<string | null>(null);
+  const [menuPos, setMenuPos] = useState<{ left: number; bottom: number } | null>(null);
   const hoverTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const leaveTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const menuRef = useRef<HTMLDivElement>(null);
+  const wrapperRefs = useRef<Record<string, HTMLDivElement | null>>({});
 
   /* ── Click-outside to close menu ──────────────────────── */
   const handleClickOutside = useCallback((e: MouseEvent) => {
-    if (menuRef.current && !menuRef.current.contains(e.target as Node)) {
+    const target = e.target as Node;
+    // Check both the portal menu and the wrapper that triggered it
+    const insideMenu = menuRef.current && menuRef.current.contains(target);
+    const insideWrapper = openMenuId && wrapperRefs.current[openMenuId]?.contains(target);
+    if (!insideMenu && !insideWrapper) {
       setOpenMenuId(null);
+      setMenuPos(null);
     }
-  }, []);
+  }, [openMenuId]);
 
   useEffect(() => {
     if (openMenuId) {
@@ -80,7 +88,22 @@ export function MenuBar({ items, onItemClick }: MenuBarProps) {
   /* ── Caret click → open menu ──────────────────────────── */
   const handleCaretClick = (e: React.MouseEvent, id: string) => {
     e.stopPropagation(); // Don't trigger the icon button click
-    setOpenMenuId((prev) => (prev === id ? null : id));
+    const isClosing = openMenuId === id;
+    setOpenMenuId(isClosing ? null : id);
+
+    if (!isClosing) {
+      // Compute position from the wrapper so the portal can be placed correctly
+      const wrapper = wrapperRefs.current[id];
+      if (wrapper) {
+        const rect = wrapper.getBoundingClientRect();
+        setMenuPos({
+          left: rect.left,
+          bottom: window.innerHeight - rect.top + 44, // 44px gap (caret height + spacing)
+        });
+      }
+    } else {
+      setMenuPos(null);
+    }
   };
 
   /* ── Device selection ─────────────────────────────────── */
@@ -90,6 +113,7 @@ export function MenuBar({ items, onItemClick }: MenuBarProps) {
     // Brief pause to let the selection feel satisfying before closing
     setTimeout(() => {
       setOpenMenuId(null);
+      setMenuPos(null);
       setHoveredId(null);
     }, 350);
   };
@@ -105,7 +129,7 @@ export function MenuBar({ items, onItemClick }: MenuBarProps) {
           <div
             key={item.id}
             className={styles.itemWrapper}
-            ref={menuOpen ? menuRef : undefined}
+            ref={(el) => { wrapperRefs.current[item.id] = el; }}
             onMouseEnter={() => handleMouseEnter(item.id, !!hasSubMenu)}
             onMouseLeave={() => handleMouseLeave(item.id)}
           >
@@ -128,9 +152,13 @@ export function MenuBar({ items, onItemClick }: MenuBarProps) {
               </button>
             )}
 
-            {/* Floating device menu */}
-            {menuOpen && item.subMenu && (
-              <div className={styles.deviceMenu}>
+            {/* Floating device menu — rendered via portal to escape parent backdrop-filter */}
+            {menuOpen && item.subMenu && menuPos && createPortal(
+              <div
+                ref={menuRef}
+                className={styles.deviceMenu}
+                style={{ left: menuPos.left, bottom: menuPos.bottom }}
+              >
                 {item.subMenu.map((device) => {
                   const isActive = device.id === item.activeSubMenuId;
                   return (
@@ -147,7 +175,8 @@ export function MenuBar({ items, onItemClick }: MenuBarProps) {
                     </button>
                   );
                 })}
-              </div>
+              </div>,
+              document.body,
             )}
 
             {/* Icon button */}

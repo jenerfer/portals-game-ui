@@ -147,6 +147,14 @@
   transition: opacity 0.3s ease, visibility 0.3s ease;
 }
 
+.advancedBuildBarAnchor {
+  position: absolute;
+  bottom: var(--layout-safe-zone);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 15;
+}
+
 /* ── Hidden state (used when inventory expanded) ─────────── */
 .anchorHidden {
   opacity: 0;

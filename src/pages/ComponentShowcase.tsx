@@ -1,4 +1,4 @@
-import { useState, useCallback, useEffect, useMemo } from 'react';
+import { useState, useCallback, useEffect, useMemo, useRef } from 'react';
 
 /* ── Random background image (picked once per mount) ───── */
 const BG_IMAGES = [
@@ -48,6 +48,7 @@ import { TrackList } from '@/components/data/TrackList';
 import { MenuBar } from '@/components/static-ui/MenuBar';
 import { PlayerCounter } from '@/components/static-ui/PlayerCounter';
 import { AccountPanel } from '@/components/static-ui/AccountPanel';
+import { AdvancedBuildBar } from '@/components/static-ui/AdvancedBuildBar';
 import { ChatPanel } from '@/components/static-ui/ChatPanel';
 import { ControlsPanel } from '@/components/static-ui/ControlsPanel';
 import { ContextMenu } from '@/components/static-ui/ContextMenu';
@@ -77,6 +78,10 @@ import { AtmosphericsIcon } from '@/icons/AtmosphericsIcon';
 import { StudioIcon } from '@/icons/StudioIcon';
 import { BugsIcon } from '@/icons/BugsIcon';
 import { UsersIcon } from '@/icons/UsersIcon';
+import { GrabIcon } from '@/icons/GrabIcon';
+import { MoveIcon } from '@/icons/MoveIcon';
+import { RotateIcon } from '@/icons/RotateIcon';
+import { ScaleIcon } from '@/icons/ScaleIcon';
 
 import styles from './ComponentShowcase.module.css';
 
@@ -136,8 +141,41 @@ export default function ComponentShowcase() {
   // Controls panel
   const [controlsOpen, setControlsOpen] = useState(false);
 
-  // Right-click context menu
+  // Advanced build bar
+  const [activeTool, setActiveTool] = useState('grab');
+  const advancedTools = [
+    { id: 'grab', icon: <GrabIcon size={40} />, label: 'Grab' },
+    { id: 'move', icon: <MoveIcon size={40} />, label: 'Move' },
+    { id: 'rotate', icon: <RotateIcon size={40} />, label: '3D Rotate' },
+    { id: 'scale', icon: <ScaleIcon size={40} />, label: 'Scale' },
+  ];
+
+  // Context menu (triggered by "P" key at cursor position)
   const [contextMenu, setContextMenu] = useState<{ x: number; y: number } | null>(null);
+  const mousePosRef = useRef<{ x: number; y: number }>({ x: 0, y: 0 });
+
+  useEffect(() => {
+    const trackMouse = (e: MouseEvent) => {
+      mousePosRef.current = { x: e.clientX, y: e.clientY };
+    };
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'p' || e.key === 'P') {
+        // Don't trigger when typing in an input / textarea
+        const tag = (e.target as HTMLElement).tagName;
+        if (tag === 'INPUT' || tag === 'TEXTAREA') return;
+        e.preventDefault();
+        setContextMenu((prev) =>
+          prev ? null : { x: mousePosRef.current.x, y: mousePosRef.current.y },
+        );
+      }
+    };
+    window.addEventListener('mousemove', trackMouse);
+    window.addEventListener('keydown', handleKey);
+    return () => {
+      window.removeEventListener('mousemove', trackMouse);
+      window.removeEventListener('keydown', handleKey);
+    };
+  }, []);
 
   // Panel close animation
   const [closingPanel, setClosingPanel] = useState(false);
@@ -257,10 +295,6 @@ export default function ComponentShowcase() {
     <div
       className={styles.viewport}
       style={{ backgroundImage: `url('${bgImage}')` }}
-      onContextMenu={(e) => {
-        e.preventDefault();
-        setContextMenu({ x: e.clientX, y: e.clientY });
-      }}
     >
       {/* ── BuildBar (left edge) ─────────────────────── */}
       <div className={`${styles.buildBarAnchor} ${!buildBarVisible ? styles.hidden : ''}`}>
@@ -737,6 +771,17 @@ export default function ComponentShowcase() {
       <div className={`${styles.bottomRightAnchor} ${inventoryExpanded ? styles.anchorHidden : ''}`}>
         <PlayerCounter count={24} />
       </div>
+
+      {/* ── Advanced Build Bar (bottom center, visible when wrench active) ── */}
+      {activeMenu.has('build-tools') && (
+        <div className={styles.advancedBuildBarAnchor}>
+          <AdvancedBuildBar
+            items={advancedTools}
+            activeId={activeTool}
+            onChange={setActiveTool}
+          />
+        </div>
+      )}
 
       {/* ── Controls Panel (centered overlay) ────────── */}
       {controlsOpen && (
