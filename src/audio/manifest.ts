@@ -32,10 +32,12 @@ export const soundManifest = {
   'toggle-on':     { src: '/sounds/toggle-on.mp3',     category: 'ui', volume: 0.5 },
   'toggle-off':    { src: '/sounds/toggle-off.mp3',    category: 'ui', volume: 0.5 },
   'build-select':  { src: '/sounds/build-select.mp3',  category: 'ui', volume: 0.5 },
+  'tab-switch':    { src: '/sounds/tab-switch.mp3',   category: 'ui', volume: 0.4 },
   'mic-on':        { src: '/sounds/mic-on.mp3',        category: 'ui', volume: 0.6 },
   'mic-off':       { src: '/sounds/mic-off.mp3',       category: 'ui', volume: 0.6 },
 
   /* ── Feedback ────────────────────────────────────────── */
+  'message-sent':       { src: '/sounds/message-sent.mp3',       category: 'feedback', volume: 0.5 },
   'notification-in':    { src: '/sounds/notification-in.mp3',    category: 'feedback', volume: 0.7 },
   'notification-out':   { src: '/sounds/notification-out.mp3',   category: 'feedback', volume: 0.4 },
   'notification-error': { src: '/sounds/notification-error.mp3', category: 'feedback', volume: 0.8 },

@@ -50,6 +50,7 @@ import { MenuBar } from '@/components/static-ui/MenuBar';
 import { PlayerCounter } from '@/components/static-ui/PlayerCounter';
 import { AccountPanel } from '@/components/static-ui/AccountPanel';
 import { AdvancedBuildBar } from '@/components/static-ui/AdvancedBuildBar';
+import { UsersInSpaceModal } from '@/components/overlays/UsersInSpaceModal';
 import { ChatPanel } from '@/components/static-ui/ChatPanel';
 import { ControlsPanel } from '@/components/static-ui/ControlsPanel';
 import { ContextMenu } from '@/components/static-ui/ContextMenu';
@@ -142,6 +143,28 @@ export default function ComponentShowcase() {
 
   // Controls panel
   const [controlsOpen, setControlsOpen] = useState(false);
+
+  // Users in space modal
+  const [showUsersModal, setShowUsersModal] = useState(false);
+  const spaceUsers = useMemo(() => [
+    { id: 'u1',  name: 'jenerfer',      avatarSrc: '/images/avatar/avatar-01.png', role: 'admin' as const },
+    { id: 'u2',  name: 'hugh',          avatarSrc: '/images/avatar/avatar-02.png', role: 'owner' as const },
+    { id: 'u3',  name: 'Dallas',        avatarSrc: '/images/avatar/avatar-03.png', role: 'moderator' as const },
+    { id: 'u4',  name: 'butterscotch',  avatarSrc: '/images/avatar/avatar-04.png', role: 'moderator' as const },
+    { id: 'u5',  name: 'Gomez',         avatarSrc: '/images/avatar/avatar-05.png', role: 'admin' as const },
+    { id: 'u6',  name: 'nyx',           avatarSrc: '/images/avatar/avatar-06.png' },
+    { id: 'u7',  name: 'pixel',         avatarSrc: '/images/avatar/avatar-07.png' },
+    { id: 'u8',  name: 'sterling',      avatarSrc: '/images/avatar/avatar-08.png' },
+    { id: 'u9',  name: 'river',         avatarSrc: '/images/avatar/avatar-09.png' },
+    { id: 'u10', name: 'moss',          avatarSrc: '/images/avatar/avatar-10.png' },
+    { id: 'u11', name: 'sage',          avatarSrc: '/images/avatar/avatar-11.png' },
+    { id: 'u12', name: 'echo',          avatarSrc: '/images/avatar/avatar-12.png' },
+    { id: 'u13', name: 'flint',         avatarSrc: '/images/avatar/avatar-13.png' },
+    { id: 'u14', name: 'nova',          avatarSrc: '/images/avatar/avatar-14.png' },
+    { id: 'u15', name: 'wren',          avatarSrc: '/images/avatar/avatar-15.png' },
+    { id: 'u16', name: 'cleo',          avatarSrc: '/images/avatar/avatar-16.png' },
+    { id: 'u17', name: 'blink',         avatarSrc: '/images/avatar/avatar-17.png' },
+  ], []);
 
   // Advanced build bar
   const [activeTool, setActiveTool] = useState('grab');
@@ -300,6 +323,26 @@ export default function ComponentShowcase() {
         setActiveMenu((prev) => {
           const next = new Set(prev);
           if (next.has('build-tools')) next.delete('build-tools'); else next.add('build-tools');
+          return next;
+        });
+      }
+
+      if (e.key === 'm' || e.key === 'M') {
+        setActiveMenu((prev) => {
+          const next = new Set(prev);
+          if (next.has('mic')) next.delete('mic'); else next.add('mic');
+          return next;
+        });
+      }
+
+      if (e.key === 'u' || e.key === 'U') {
+        setShowUsersModal((prev) => !prev);
+      }
+
+      if (e.key === 'v' || e.key === 'V') {
+        setActiveMenu((prev) => {
+          const next = new Set(prev);
+          if (next.has('menu')) next.delete('menu'); else next.add('menu');
           return next;
         });
       }
@@ -498,7 +541,7 @@ export default function ComponentShowcase() {
                 { id: 'u13', name: 'beer' },
                 { id: 'u14', name: 'aloha' },
               ]}
-              onMore={(id) => console.log('more', id)}
+              onAction={(userId, action) => console.log('user-action:', userId, action)}
             />
           </Panel>
         )}
@@ -794,7 +837,7 @@ export default function ComponentShowcase() {
 
       {/* ── Static UI: Bottom Right ───────────────────── */}
       <div className={`${styles.bottomRightAnchor} ${inventoryExpanded ? styles.anchorHidden : ''}`}>
-        <PlayerCounter count={24} />
+        <PlayerCounter count={spaceUsers.length} onClick={() => setShowUsersModal(true)} />
       </div>
 
       {/* ── Advanced Build Bar (bottom center, visible when wrench active) ── */}
@@ -816,6 +859,15 @@ export default function ComponentShowcase() {
             <ControlsPanel onClose={() => setControlsOpen(false)} />
           </div>
         </>
+      )}
+
+      {/* ── Users In Space Modal (centered overlay) ── */}
+      {showUsersModal && (
+        <UsersInSpaceModal
+          users={spaceUsers}
+          onClose={() => setShowUsersModal(false)}
+          onAction={(userId, action) => console.log('user-action:', userId, action)}
+        />
       )}
 
       {/* ── Right-click Context Menu ────────────────── */}

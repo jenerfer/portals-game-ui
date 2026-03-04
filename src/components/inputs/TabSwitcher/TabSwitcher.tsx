@@ -1,4 +1,5 @@
 import { useControllable } from '@/hooks/useControllable';
+import { useSound } from '@/audio';
 import styles from './TabSwitcher.module.css';
 
 export interface TabSwitcherProps {
@@ -19,6 +20,12 @@ export function TabSwitcher({
   onChange,
 }: TabSwitcherProps) {
   const [active, setActive] = useControllable(activeTab, defaultActiveTab, onChange);
+  const { play } = useSound();
+
+  const handleClick = (index: number) => {
+    if (index !== active) play('tab-switch');
+    setActive(index);
+  };
 
   return (
     <div className={styles.container} role="tablist">
@@ -37,7 +44,7 @@ export function TabSwitcher({
           role="tab"
           aria-selected={active === index}
           className={`${styles.tab} ${active === index ? styles.active : styles.inactive}`}
-          onClick={() => setActive(index)}
+          onClick={() => handleClick(index)}
         >
           {label}
         </button>

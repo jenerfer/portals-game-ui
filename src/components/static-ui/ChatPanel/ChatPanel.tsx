@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect, useCallback } from 'react';
+import { useSound } from '@/audio';
 import { TabNav } from '@/components/navigation/TabNav';
 import { Text } from '@/components/primitives/Text';
 import { TextEntry } from '@/components/inputs/TextEntry';
@@ -46,6 +47,7 @@ export function ChatPanel({
   const [emoteOpen, setEmoteOpen] = useState(false);
   const bottomRef = useRef<HTMLDivElement>(null);
   const emoteAreaRef = useRef<HTMLDivElement>(null);
+  const { play } = useSound();
 
   // Auto-scroll to bottom when messages change
   useEffect(() => {
@@ -98,7 +100,8 @@ export function ChatPanel({
       },
     ]);
     setInputValue('');
-  }, [inputValue]);
+    play('message-sent');
+  }, [inputValue, play]);
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter' && !e.shiftKey) {

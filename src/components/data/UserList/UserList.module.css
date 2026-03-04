@@ -5,7 +5,7 @@
 .list {
   display: flex;
   flex-direction: column;
-  gap: 2px;
+  gap: var(--spacing-1, 5px);
 }
 
 /* ── Individual row ──────────────────────────────────────── */
@@ -13,16 +13,29 @@
 .row {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  padding: 10px var(--spacing-5, 16px);
+  gap: var(--spacing-3, 10px);
+  padding: var(--spacing-3, 10px) var(--spacing-5, 20px);
   background: transparent;
-  border-radius: var(--radius-md, 10px);
+  border-radius: 16px;
   cursor: default;
-  transition: background var(--transition-normal);
+  transition:
+    background var(--transition-normal),
+    color var(--transition-normal);
 }
 
-.row:hover {
+.row:hover,
+.row.active {
   background: var(--color-glass-hover);
+}
+
+/* ── Avatar ─────────────────────────────────────────────── */
+
+.avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  flex-shrink: 0;
+  object-fit: cover;
 }
 
 /* ── Username ────────────────────────────────────────────── */
@@ -30,13 +43,50 @@
 .name {
   font-family: var(--font-family-primary);
   font-size: var(--typography-scale-p2-font-size, 16px);
-  font-weight: var(--font-weight-medium, 500);
+  font-weight: var(--font-weight-light, 300);
+  letter-spacing: 1px;
+  color: var(--semantic-text-muted);
+  transition: color var(--transition-normal);
+}
+
+.row:hover .name,
+.row.active .name {
+  color: var(--semantic-text-primary);
+}
+
+/* ── Role badge ─────────────────────────────────────────── */
+
+.badge {
+  flex-shrink: 0;
+  padding: 5px 10px;
+  margin-left: 5px;
+
+  font-family: var(--font-family-primary);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  font-weight: var(--typography-scale-p3-font-weight, 300);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  letter-spacing: 1px;
+
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-pill, 999px);
+}
+
+.badge.admin {
+  color: var(--color-brand-blue-2);
+}
+
+.badge.moderator {
+  color: #CCCE8A;
+}
+
+.badge.owner {
   color: var(--semantic-text-primary);
 }
 
 /* ── More button (visible on row hover) ──────────────────── */
 
 .moreBtn {
+  margin-left: auto;
   opacity: 0;
   transition: opacity var(--transition-normal);
 
@@ -47,13 +97,96 @@
   padding: 0;
   cursor: pointer;
 
-  color: var(--semantic-text-muted);
+  color: var(--semantic-icon-default);
 }
 
-.row:hover .moreBtn {
+.row:hover .moreBtn,
+.row.active .moreBtn {
   opacity: 1;
 }
 
 .moreBtn:hover {
+  color: var(--semantic-text-primary);
+}
+
+/* ── Popover menu (matches ContextMenu style) ────────────── */
+
+@keyframes popoverEnter {
+  from { opacity: 0; transform: scale(0.95); }
+  to   { opacity: 1; transform: scale(1); }
+}
+
+.popover {
+  position: fixed;
+  min-width: 220px;
+  z-index: 100;
+  padding: 10px;
+  box-sizing: border-box;
+
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+
+  background: var(--color-glass-base);
+  backdrop-filter: blur(var(--blur-standard, 24px));
+  -webkit-backdrop-filter: blur(var(--blur-standard, 24px));
+  border: 1px solid var(--semantic-border-default);
+  border-radius: var(--radius-2xl, 30px);
+
+  animation: popoverEnter 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+.popoverItem {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 14px;
+  width: 100%;
+
+  background: transparent;
+  border: none;
+  border-radius: 0;
+  cursor: pointer;
+  outline: none;
+
+  transition: background var(--transition-normal), border-radius var(--transition-normal);
+}
+
+.popoverItem:hover {
+  background: var(--color-glass-raised);
+  border-radius: var(--radius-lg, 20px);
+}
+
+/* ── Popover icon ─────────────────────────────────────────── */
+
+.popoverItemIcon {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 24px;
+  height: 24px;
+  flex-shrink: 0;
+  color: var(--semantic-icon-subtle);
+  transition: color var(--transition-normal);
+}
+
+.popoverItem:hover .popoverItemIcon {
+  color: var(--semantic-icon-subtle-hover);
+}
+
+/* ── Popover label ────────────────────────────────────────── */
+
+.popoverItemLabel {
+  font-family: var(--typography-font-family-body);
+  font-size: var(--typography-scale-p3-font-size, 14px);
+  font-weight: var(--typography-scale-p3-font-weight, 300);
+  letter-spacing: var(--typography-scale-p3-letter-spacing, 1px);
+  line-height: var(--typography-scale-p3-line-height, 14px);
+  color: var(--semantic-text-secondary);
+  white-space: nowrap;
+  transition: color var(--transition-normal);
+}
+
+.popoverItem:hover .popoverItemLabel {
   color: var(--semantic-text-primary);
 }
