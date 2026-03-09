@@ -88,7 +88,7 @@
 
   background: transparent;
   border: none;
-  border-radius: 15px;
+  border-radius: var(--radius-md);
 
   cursor: pointer;
   outline: none;

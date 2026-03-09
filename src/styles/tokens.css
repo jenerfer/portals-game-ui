@@ -38,6 +38,7 @@
   --color-feedback-success: #18AD79;
   --color-feedback-error: #CB3B36;
   --color-feedback-error-light: #FF806D;
+  --color-feedback-warning-light: #CCCE8A;
   --semantic-text-primary: rgba(185, 219, 243, 0.95);
   --semantic-text-secondary: rgba(185, 219, 243, 0.70);
   --semantic-text-muted: rgba(185, 219, 243, 0.50);
@@ -147,8 +148,8 @@
   --button-default-font-size: 16px;
   --button-default-line-height: 16px;
   --button-default-border-radius: 999px;
-  --button-micro-padding-x: 17px;
-  --button-micro-padding-y: 10px;
+  --button-micro-padding-x: 14px;
+  --button-micro-padding-y: 8px;
   --button-micro-font-size: 14px;
   --button-micro-line-height: 16px;
   --button-micro-border-radius: 999px;

@@ -46,7 +46,7 @@
   cursor: pointer;
   outline: none;
 
-  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-family: var(--typography-font-family-body);
   font-size: var(--typography-scale-p2-font-size);
   font-weight: var(--typography-font-weight-light);
   letter-spacing: var(--typography-scale-p2-letter-spacing);

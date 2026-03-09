@@ -71,3 +71,12 @@ export { PlayerCounter } from './static-ui/PlayerCounter';
 export type { PlayerCounterProps } from './static-ui/PlayerCounter';
 
 export { AccountEditMode } from './static-ui/AccountEditMode';
+
+// Overlays
+export { UsersInSpaceModal } from './overlays/UsersInSpaceModal';
+
+export { ConfirmModal } from './overlays/ConfirmModal';
+export type { ConfirmModalProps } from './overlays/ConfirmModal';
+
+export { PasswordModal } from './overlays/PasswordModal';
+export type { PasswordModalProps } from './overlays/PasswordModal';

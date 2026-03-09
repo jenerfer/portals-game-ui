@@ -76,7 +76,7 @@
 }
 
 .badge.moderator {
-  color: #CCCE8A;
+  color: var(--color-feedback-warning-light);
 }
 
 .badge.owner {

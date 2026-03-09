@@ -107,7 +107,7 @@
 }
 
 .displayValue {
-  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-family: var(--typography-font-family-body);
   font-weight: 300;
   font-size: 19px;
   line-height: 1;

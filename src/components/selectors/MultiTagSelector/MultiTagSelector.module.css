@@ -6,7 +6,7 @@
   padding: 0 13px;
   border-radius: 999px;
   border: 1px solid var(--semantic-border-default);
-  font-family: 'PP Supply Sans', var(--typography-font-family-body), sans-serif;
+  font-family: var(--typography-font-family-body);
   font-weight: 600;
   font-size: 14px;
   line-height: 1;

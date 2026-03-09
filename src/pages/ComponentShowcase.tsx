@@ -51,6 +51,8 @@ import { PlayerCounter } from '@/components/static-ui/PlayerCounter';
 import { AccountPanel } from '@/components/static-ui/AccountPanel';
 import { AdvancedBuildBar } from '@/components/static-ui/AdvancedBuildBar';
 import { UsersInSpaceModal } from '@/components/overlays/UsersInSpaceModal';
+import { ConfirmModal } from '@/components/overlays/ConfirmModal';
+import { PasswordModal } from '@/components/overlays/PasswordModal';
 import { ChatPanel } from '@/components/static-ui/ChatPanel';
 import { ControlsPanel } from '@/components/static-ui/ControlsPanel';
 import { ContextMenu } from '@/components/static-ui/ContextMenu';
@@ -165,6 +167,9 @@ export default function ComponentShowcase() {
     { id: 'u16', name: 'cleo',          avatarSrc: '/images/avatar/avatar-16.png' },
     { id: 'u17', name: 'blink',         avatarSrc: '/images/avatar/avatar-17.png' },
   ], []);
+
+  // Modal demo (0 key cycles: confirm → password → null)
+  const [modalDemo, setModalDemo] = useState<'confirm' | 'password' | null>(null);
 
   // Advanced build bar
   const [activeTool, setActiveTool] = useState('grab');
@@ -337,6 +342,14 @@ export default function ComponentShowcase() {
 
       if (e.key === 'u' || e.key === 'U') {
         setShowUsersModal((prev) => !prev);
+      }
+
+      if (e.key === '0') {
+        setModalDemo((prev) => {
+          if (prev === null) return 'confirm';
+          if (prev === 'confirm') return 'password';
+          return null;
+        });
       }
 
       if (e.key === 'v' || e.key === 'V') {
@@ -877,6 +890,31 @@ export default function ComponentShowcase() {
           y={contextMenu.y}
           onClose={() => setContextMenu(null)}
           onAction={(action) => console.log('context-menu:', action)}
+        />
+      )}
+
+      {/* ── Confirm Modal (centered overlay) ─────────── */}
+      {modalDemo === 'confirm' && (
+        <ConfirmModal
+          title="do you want to click this option?"
+          description="set the tone of your game or experience with custom default camera views. Choose from one of our presets below or use our fine."
+          primaryLabel="click this"
+          secondaryLabel="click this"
+          onPrimary={() => setModalDemo(null)}
+          onSecondary={() => setModalDemo(null)}
+          onClose={() => setModalDemo(null)}
+        />
+      )}
+
+      {/* ── Password Modal (centered overlay) ─────────── */}
+      {modalDemo === 'password' && (
+        <PasswordModal
+          title="this space requires a password"
+          description="The user of this space has password protected this space. Enter the password below"
+          placeholder="enter password"
+          buttonLabel="enter space"
+          onSubmit={(pw) => { console.log('password:', pw); setModalDemo(null); }}
+          onClose={() => setModalDemo(null)}
         />
       )}
 
